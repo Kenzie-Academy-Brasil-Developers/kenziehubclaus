@@ -32,6 +32,22 @@ export const GlobalStyles = createGlobalStyle`
 
     ${() => typography};
 
+    body::-webkit-scrollbar {
+        width: 10px;
+    } 
+
+    body::-webkit-scrollbar-thumb:hover { 
+        background-color: var(--color-primary-Focus);   
+    }
+
+    body::-webkit-scrollbar-thumb:not(:hover) {   
+        background-color: var(--color-primary);   
+    }
+
+    body::-webkit-scrollbar-thumb:window-inactive {
+        background-color: var(--grey-1);
+    }
+
     body {
         background-color: var(--grey-4);
     }

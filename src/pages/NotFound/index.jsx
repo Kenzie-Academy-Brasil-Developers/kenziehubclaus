@@ -11,7 +11,7 @@ export function NotFound() {
             <h1>Oops! 404</h1>
             <legend>Não pudemos encontrar o que você procura</legend>
             <img src={imgNotFound} alt='Não encontramos sua página'/>
-            <LinkBtnStyle onClick={() => navigate(-1)}>Voltar</LinkBtnStyle>
+            <LinkBtnStyle onClick={() => navigate(-1)} variant='secondary'>Voltar</LinkBtnStyle>
         </MainStyle>
     )
 };
