@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import imgNotFound from '../../assets/404.png';
 import { LinkBtnStyle } from '../../styles/buttons';
-import { MainStyle } from './styles.js';
+import { MainStyle } from './styles';
 
 export function NotFound() {
     const navigate = useNavigate();

@@ -15,9 +15,9 @@ export const ContInputStyle = styled.label`
     }
 
     input {
-        outline: none;
-        padding: 0;
         background-color: transparent;
+        padding: 0;
+        outline: none;
         border: none;
         color: var(--grey-0);
     }
@@ -50,6 +50,7 @@ export const ContInputStyle = styled.label`
         border: none;
         outline: none;
         display: flex;
+        cursor: pointer;
         align-items: center;
     }
 `;

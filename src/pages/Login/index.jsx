@@ -1,4 +1,4 @@
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/logo.svg';
 import { Input } from '../../components/Input'
 import { Button, LinkBtnStyle } from '../../styles/buttons'
 import { FormStyle } from '../../styles/form';
@@ -19,7 +19,7 @@ export function Login() {
                 <Button variant='primary'>Entrar</Button>
                 <div>
                     <legend>Ainda não possuiu uma conta</legend>
-                    <LinkBtnStyle to='/signup'>Cadastre-se</LinkBtnStyle>
+                    <LinkBtnStyle to='/signup' variant='secondary'>Cadastre-se</LinkBtnStyle>
                 </div>
             </FormStyle>
             

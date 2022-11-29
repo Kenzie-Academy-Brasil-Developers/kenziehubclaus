@@ -41,6 +41,7 @@ export const Button = styled.button`
     padding: 10.5px 22.33px;
     transition: 0.7s;
     border: none;
+    line-height: 26px;
     border-radius: var(--radius-1);
     ${({variant}) => ButtonVariant[variant]};
 `;
@@ -57,6 +58,7 @@ export const LinkBtnStyle = styled(Link)`
     padding: 10.5px 22.33px;
     transition: 0.7s;
     border: none;
+    line-height: 26px;
     border-radius: var(--radius-1);
-    ${() => ButtonVariant['secondary']};
+    ${({variant}) => ButtonVariant[variant]};
 `;

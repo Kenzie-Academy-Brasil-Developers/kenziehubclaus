@@ -6,9 +6,7 @@ export function App() {
   return (
     <>
       <GlobalStyles/>
-      <RoutesMain>
-
-      </RoutesMain>
+      <RoutesMain/>
     </>
   );
 }
