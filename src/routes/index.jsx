@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { Home } from '../pages/Home';
 import { Login } from '../pages/Login';
+import { NotFound } from '../pages/NotFound';
 import { SignUp } from '../pages/SignUp';
 
 export function RoutesMain() {
@@ -10,6 +11,7 @@ export function RoutesMain() {
             <Route path='/login' element={ <Login/> }/>
             <Route path='/signup' element={ <SignUp/> }/>
             <Route path='/home' element={ <Home/> }/>
+            <Route path='*' element={ <NotFound/> }/>
         </Routes>
     )
 };

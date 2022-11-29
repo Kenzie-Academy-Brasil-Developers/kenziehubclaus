@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
 
 const ButtonVariant = {
     primary: css`
@@ -31,6 +32,7 @@ const ButtonVariant = {
 };
 
 export const Button = styled.button`
+    display: block;
     cursor: pointer;
     font-family: var(--font-family-default);
     font-size: 16px;
@@ -41,4 +43,20 @@ export const Button = styled.button`
     border: none;
     border-radius: var(--radius-1);
     ${({variant}) => ButtonVariant[variant]};
+`;
+
+export const LinkBtnStyle = styled(Link)`
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: var(--font-family-default);
+    font-size: 16px;
+    font-weight: var(--font-weight-2);
+    color: var(--white-0);
+    padding: 10.5px 22.33px;
+    transition: 0.7s;
+    border: none;
+    border-radius: var(--radius-1);
+    ${() => ButtonVariant['secondary']};
 `;

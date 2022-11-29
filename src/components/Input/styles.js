@@ -8,7 +8,6 @@ export const ContInputStyle = styled.label`
     font-weight: var(--font-weight-1);
     color: var(--grey-0);
     align-items: flex-start;
-    margin-bottom: 26px;
 
     input, input::placeholder {
         font-size: 16px;
@@ -16,6 +15,19 @@ export const ContInputStyle = styled.label`
     }
 
     input {
+        outline: none;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        color: var(--grey-0);
+    }
+
+    div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
         color: var(--grey-0);
         border: 1px solid transparent;
         background-color: var(--grey-2);
@@ -29,7 +41,15 @@ export const ContInputStyle = styled.label`
         color: var(--grey-1);
     }
 
-    input:focus {
+    div:focus-within {
         border-color: var(--grey-0);
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        display: flex;
+        align-items: center;
     }
 `;
