@@ -13,8 +13,13 @@ import { api } from '../../services/api';
 
 export function Login() {
     const formSchema = yup.object().shape({
-        email: yup.string().required('Email obrigatório').email('Não é um email válido'),
-        password: yup.string().required('A senha é obrigatória')
+        email: yup
+            .string()
+            .required('O email é obrigatório')
+            .email('Não é um email válido'),
+        password: yup
+            .string()
+            .required('A senha é obrigatória')
     })
     const defaultColorBtn = { color: 'var(--grey-1)' };
     const [showPasswd, setShowPasswd] = useState(false);
@@ -59,22 +64,26 @@ export function Login() {
     return (
             <MainStyle>
                 <img src={logo} alt='Logo'/>
-                <FormStyle onSubmit={handleSubmit(onSub)}>
+                <FormStyle onSubmit={handleSubmit(onSub)} noValidate>
                     <h1>Login</h1>
-                    <ContInput labelText='Email' id='email'>
-                        <input placeholder='Digite o seu email' id='email' {...register('email')} type='email'/>
-                    </ContInput>
-                    {errors.email?.message}
-                    <ContInput labelText='Senha'>
-                        <input placeholder='Digite a sua senha' id='password' {...register('password')} type=
-                        {
-                            showPasswd?
-                            'text' :
-                            'password'
-                        }/>
-                        <span onClick={changeVisibilityPasswd}>{currentBtn}</span>
-                    </ContInput>
-                    {errors.password?.message}
+                    <div>
+                        <ContInput labelText='Email' id='email'>
+                            <input placeholder='Digite o seu email' id='email' {...register('email')} type='email'/>
+                        </ContInput>
+                        <small>&nbsp;{errors.email?.message}&nbsp;</small>
+                    </div>
+                    <div>
+                        <ContInput labelText='Senha'>
+                            <input placeholder='Digite a sua senha' id='password' {...register('password')} type=
+                            {
+                                showPasswd?
+                                'text' :
+                                'password'
+                            }/>
+                            <span onClick={changeVisibilityPasswd}>{currentBtn}</span>
+                        </ContInput>
+                        <small>&nbsp;{errors.password?.message}&nbsp;</small>
+                    </div>
                     <Button variant='primary' type='submit'>Entrar</Button>
                     <div>
                         <legend>Ainda não possuiu uma conta</legend>

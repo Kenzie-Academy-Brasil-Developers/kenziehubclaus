@@ -9,6 +9,8 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export function SignUp() {
     const defaultColorBtn = { color: 'var(--grey-1)' };
@@ -20,27 +22,77 @@ export function SignUp() {
     const [currUserData, setCurrUserData] = useState(null); 
     const [inputsValues, setInputValues] = useState({});
     const [disableForm, setDisableForm] = useState(true);
+    const [canSub, setCanSub] = useState(0);
     const formSchema = yup.object().shape({
-        name: yup.string().required('O nome é obrigatório'),
-        email: yup.string().required('Você precisa digitar o email').email('Digite um email válido'),
-        password: yup.string().required('Você precisa digitar a senha').min(8, 'Sua senha precisa de no mínimo 8 caracteres').matches(/[0-9]*[a-z]*[A-Z]*[!"#$%&'()*+,-./:;?@[\\\]_`{|}~]/g, "A senha não atende a todos os requisitos"),
-        passwordConfirm: yup.string().required('Você precisa confirmar a senha').oneOf([yup.ref('password')], 'As senhas precisam ser iguais'),
-        bio: yup.string().required('Você precisa digitar uma bio'),
-        contact: yup.string().required('Você precisa digitar um telefone de contato'),
-        course_module: yup.string().required('Você precisa escolher um módulo de curso')
+        name: yup
+            .string()
+            .required('O nome é obrigatório')
+            .min(3, 'O nome precisa ter pelo menos 3 caracteres')
+            .max(200, 'O nome precisa ter no máximo 200 caracteres'),
+        email: yup
+            .string()
+            .required('Você precisa digitar o email')
+            .email('Digite um email válido'),
+        password: yup
+            .string()
+            .required('Você precisa digitar a senha')
+            .min(8, 'Sua senha precisa de no mínimo 8 caracteres')
+            .matches(/(?=.*?[0-9])/, 'É necessário um número')
+            .matches(/(?=.*?[A-Z])/, 'É necessária uma letra maiúscula')
+            .matches(/(?=.*?[a-z])/, 'É necessária uma letra minúscula')
+            .matches(/(?=.*?[#?!@$%^&*-])/, 'É necessário um caractere especial'),
+        passwordConfirm: yup
+            .string()
+            .required('Você precisa confirmar a senha')
+            .oneOf([yup.ref('password')], 'As senhas precisam ser iguais'),
+        bio: yup
+            .string()
+            .required('Você precisa digitar uma bio'),
+        contact: yup
+            .string()
+            .required('Você precisa digitar um telefone de contato'),
+        course_module: yup
+            .string()
+            .required('Você precisa escolher um módulo de curso')
     });
 
+    // const loading = new Promise(resolve => setTimeout(resolve, 7000));
+
+    // toast.promise(
+    //     loading,
+    //     {
+    //       pending: 'Promise is pending',
+    //       success: 'Promise resolved 👌',
+    //       error: 'Promise rejected 🤯'
+    //     }
+    // )
     useEffect(() => {
+        console.log(currUserData)
         if (!currUserData) {return};
+        toast.loading('Carregando', {toastId: 'load'});
         async function createUser() {
-            try {
-                const response = await api.post('/users', currUserData);
+            try { /*Os toast duplicam*/
+                const response =  await api.post('/users', currUserData);
                 console.log(response)
+                toast.dismiss('load');
+                toast.success('Usuário criado com sucesso', {toastId: 'success'});
+                toast.dismiss('success');
             } catch(error) {
+                toast.dismiss('load');
+                if (error.response.data.message === 'Email already exists') {
+                    toast.error('Esse email já existe, tente outro', {toastId: 'error'});
+                    // toast.dismiss('error');
+                } else {
+                    toast.error('Ops! Algo deu errado', {toastId: 'error'});
+                }
                 console.log(error.response.data.message)
                 console.log('deu ruim')
             } finally {
-                console.log('acabou')
+                // toast.dismiss('load');
+                // toast.dismiss('success');
+                // toast.info('Requisição finalizada', {toastId: 'finish'});
+                // toast.dismiss('finish');
+                // console.log('acabou')
             }
         }
         createUser();
@@ -62,7 +114,7 @@ export function SignUp() {
 
     function onSub(data) {
         setCurrUserData(data);
-        console.log(data);
+        setCanSub(Math.random());
     };
 
     function setInputEmpty(value, type) {
@@ -78,62 +130,94 @@ export function SignUp() {
         setInputValues(currInput);
     };
 
+
     return (
         <MainStyle>
+            <ToastContainer
+            position='top-right'
+            autoClose={5000}
+            hideProgressBar={false}
+            closeOnClick
+            pauseOnHover
+            theme='dark'
+            limit={1}
+            />
             <HeaderStyle>
                 <img src={logo} alt='Kenzie Hub'/>
                 <LinkBtnStyle to='/login' variant='tertiary'>Voltar</LinkBtnStyle>
             </HeaderStyle>
-            <FormStyle onSubmit={handleSubmit(onSub)}>
+            <FormStyle onSubmit={handleSubmit(onSub)} noValidate>
                 <h1>Crie sua conta</h1>
                 <h2>Rápido e grátis, vamos nessa</h2>
-                <ContInput labelText='Nome' id='name'>
-                    <input placeholder='Digite aqui seu nome' id='name' type='text' {...register('name')} onChange={(e) => setInputEmpty(e.target.value, 'name')} />
-                </ContInput>
-                {errors.name?.message}
-                <ContInput labelText='Email' id='email'>
-                    <input placeholder='Digite aqui seu email' id='email' type='email' {...register('email')} onChange={(e) => setInputEmpty(e.target.value, 'email')}/>
-                </ContInput> 
-                {errors.email?.message}
-                <ContInput labelText='Senha' id='password'>
-                        <input placeholder='Digite a sua senha' id='password' {...register('password')} onChange={(e) => setInputEmpty(e.target.value, 'password')} type=
-                        {
-                            showPasswd1?
-                            'text' :
-                            'password'
-                        }/>
-                        <span onClick={changeVisibilityPasswd1}>{currentBtn1}</span>
-                </ContInput> 
-                {errors.password?.message}
-                <ContInput labelText='Confirmar senha'  id='passwordConfirm'>
-                        <input placeholder='Digite novamente a senha' id='passwordConfirm' {...register('passwordConfirm')} onChange={(e) => setInputEmpty(e.target.value, 'passwordConfirm')} type=
-                        {
-                            showPasswd2?
-                            'text' :
-                            'password'
-                        }/>
-                        <span onClick={changeVisibilityPasswd2}>{currentBtn2}</span>
-                </ContInput> 
-                {errors.passwordConfirm?.message}
-                <ContInput labelText='Bio' id='bio'>
-                    <input placeholder='Fale sobre você' id='bio' type='text' {...register('bio')} onChange={(e) => setInputEmpty(e.target.value, 'bio')}/>
-                </ContInput>
-                {errors.bio?.message}
-                <ContInput labelText='Contato' id='contact'>
-                    <input placeholder='Opção de contato' id='contact' type='tel' {...register('contact')} onChange={(e) => setInputEmpty(e.target.value, 'contact')}/>
-                </ContInput>
-                {errors.contact?.message}
-                <SelectStyle>
-                    Selecionar módulo
-                    <select {...register('course_module')} onChange={(e) => setInputEmpty(e.target.value, 'select')}>
-                        <option value='' style={{display:'none'}}>Escolher módulo</option>
-                        <option value='Primeiro módulo (Introdução ao Frontend)'>Primeiro módulo</option>
-                        <option value='Segundo módulo (Frontend Avançado)'>Segundo módulo</option>
-                        <option value='Terceiro módulo (Introdução ao Backend)'>Terceiro módulo</option>
-                        <option value='Quarto módulo (Backend Avançado)'>Quarto módulo</option>
-                    </select>
-                </SelectStyle>
-                {errors.course_module?.message}
+
+                <div>
+                    <ContInput labelText='Nome' id='name'>
+                        <input placeholder='Digite aqui seu nome' id='name' type='text' {...register('name')} onChange={(e) => setInputEmpty(e.target.value, 'name')} />
+                    </ContInput>
+                    <small>&nbsp;{errors.name?.message}&nbsp;</small>
+                </div>
+
+                <div>
+                    <ContInput labelText='Email' id='email'>
+                        <input placeholder='Digite aqui seu email' id='email' type='email' {...register('email')} onChange={(e) => setInputEmpty(e.target.value, 'email')}/>
+                    </ContInput>
+                    <small>&nbsp;{errors.email?.message}&nbsp;</small>
+                </div>
+
+                <div>
+                    <ContInput labelText='Senha' id='password'>
+                            <input placeholder='Digite a sua senha' id='password' {...register('password')} onChange={(e) => setInputEmpty(e.target.value, 'password')} type=
+                            {
+                                showPasswd1?
+                                'text' :
+                                'password'
+                            }/>
+                            <span onClick={changeVisibilityPasswd1}>{currentBtn1}</span>
+                    </ContInput>
+                    <small>&nbsp;{errors.password?.message}&nbsp;</small>
+                </div>
+
+                <div>
+                    <ContInput labelText='Confirmar senha'  id='passwordConfirm'>
+                            <input placeholder='Digite novamente a senha' id='passwordConfirm' {...register('passwordConfirm')} onChange={(e) => setInputEmpty(e.target.value, 'passwordConfirm')} type=
+                            {
+                                showPasswd2?
+                                'text' :
+                                'password'
+                            }/>
+                            <span onClick={changeVisibilityPasswd2}>{currentBtn2}</span>
+                    </ContInput>
+                    <small>&nbsp;{errors.passwordConfirm?.message}&nbsp;</small>
+                </div>
+
+                <div>
+                    <ContInput labelText='Bio' id='bio'>
+                        <input placeholder='Fale sobre você' id='bio' type='text' {...register('bio')} onChange={(e) => setInputEmpty(e.target.value, 'bio')}/>
+                    </ContInput>
+                    <small>&nbsp;{errors.bio?.message}&nbsp;</small>
+                </div>
+
+                <div>
+                    <ContInput labelText='Contato' id='contact'>
+                        <input placeholder='Opção de contato' id='contact' type='tel' {...register('contact')} onChange={(e) => setInputEmpty(e.target.value, 'contact')}/>
+                    </ContInput>
+                    <small>&nbsp;{errors.contact?.message}&nbsp;</small>
+                </div>
+
+                <div>
+                    <SelectStyle>
+                        Selecionar módulo
+                        <select {...register('course_module')} onChange={(e) => setInputEmpty(e.target.value, 'select')}>
+                            <option value='' style={{display:'none'}}>Escolher módulo</option>
+                            <option value='Primeiro módulo (Introdução ao Frontend)'>Primeiro módulo</option>
+                            <option value='Segundo módulo (Frontend Avançado)'>Segundo módulo</option>
+                            <option value='Terceiro módulo (Introdução ao Backend)'>Terceiro módulo</option>
+                            <option value='Quarto módulo (Backend Avançado)'>Quarto módulo</option>
+                        </select>
+                    </SelectStyle>
+                    <small>&nbsp;{errors.course_module?.message}&nbsp;</small>
+                </div>
+
                 <Button variant='primary' type='submit' disabled={disableForm}>Cadastrar</Button>
             </FormStyle>
         </MainStyle>
