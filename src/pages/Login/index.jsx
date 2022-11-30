@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
 import { useState } from 'react';
+import { api } from '../../services/api';
 
 export function Login() {
     const formSchema = yup.object().shape({
@@ -18,22 +19,39 @@ export function Login() {
     const defaultColorBtn = { color: 'var(--grey-1)' };
     const [showPasswd, setShowPasswd] = useState(false);
     const [currentBtn, setCurrentBtn] = useState(<BsEyeFill style={defaultColorBtn}/>);
+    const [currUser, setCurrUser] = useState(null);
 
     function changeVisibilityPasswd() {
         setShowPasswd(!showPasswd);
         showPasswd ? setCurrentBtn(<BsEyeFill style={defaultColorBtn}/>) : setCurrentBtn(<BsEyeSlashFill style={defaultColorBtn}/>);
     };
 
-    // useEffect(() => {
-    //     async function
-    // }, []);
+    useEffect(() => {
+        if (!currUser) {return};
+        console.log('passei')
+        async function sendApiData() {
+            try {
+                const response = await api.post('/sessions', currUser)
+                console.log(response)
+            } catch(error) {
+                if (error.response.status === 401) {
+                    console.log('Email ou senha incorretos')
+                }
+            } finally {
+                console.log('terminou')
+            }
+        }
+        sendApiData()
+    }, [currUser]);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });
 
     function onSub(data) {
+        setCurrUser(data);
         console.log(data);
+        
     };
 
     
@@ -57,7 +75,7 @@ export function Login() {
                         <span onClick={changeVisibilityPasswd}>{currentBtn}</span>
                     </ContInput>
                     {errors.password?.message}
-                    <Button variant='primary'>Entrar</Button>
+                    <Button variant='primary' type='submit'>Entrar</Button>
                     <div>
                         <legend>Ainda não possuiu uma conta</legend>
                         <LinkBtnStyle to='/signup' variant='secondary'>Cadastre-se</LinkBtnStyle>

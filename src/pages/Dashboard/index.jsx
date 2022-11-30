@@ -1,6 +1,6 @@
 
 
-export function Home() {
+export function Dashboard() {
     return (
             <h1>Home</h1>
     )

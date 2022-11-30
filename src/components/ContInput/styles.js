@@ -20,6 +20,7 @@ export const ContInputStyle = styled.label`
         outline: none;
         border: none;
         color: var(--grey-0);
+        width: 95%;
     }
 
     div {

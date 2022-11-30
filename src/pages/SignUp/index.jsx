@@ -4,10 +4,11 @@ import { MainStyle, SelectStyle, HeaderStyle } from './styles';
 import { ContInput } from '../../components/ContInput';
 import { Button, LinkBtnStyle } from '../../styles/buttons'
 import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { api } from '../../services/api';
 
 export function SignUp() {
     const defaultColorBtn = { color: 'var(--grey-1)' };
@@ -16,6 +17,9 @@ export function SignUp() {
     const [currentBtn1, setCurrentBtn1] = useState(btnEye);
     const [showPasswd2, setShowPasswd2] = useState(false);
     const [currentBtn2, setCurrentBtn2] = useState(btnEye);
+    const [currUserData, setCurrUserData] = useState(null); 
+    const [inputsValues, setInputValues] = useState({});
+    const [disableForm, setDisableForm] = useState(true);
     const formSchema = yup.object().shape({
         name: yup.string().required('O nome é obrigatório'),
         email: yup.string().required('Você precisa digitar o email').email('Digite um email válido'),
@@ -25,6 +29,22 @@ export function SignUp() {
         contact: yup.string().required('Você precisa digitar um telefone de contato'),
         course_module: yup.string().required('Você precisa escolher um módulo de curso')
     });
+
+    useEffect(() => {
+        if (!currUserData) {return};
+        async function createUser() {
+            try {
+                const response = await api.post('/users', currUserData);
+                console.log(response)
+            } catch(error) {
+                console.log(error.response.data.message)
+                console.log('deu ruim')
+            } finally {
+                console.log('acabou')
+            }
+        }
+        createUser();
+    }, [currUserData]);
 
     function changeVisibilityPasswd1() {
         setShowPasswd1(!showPasswd1);
@@ -38,11 +58,25 @@ export function SignUp() {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
-    })
+    });
 
     function onSub(data) {
-        console.log(data)
-    }
+        setCurrUserData(data);
+        console.log(data);
+    };
+
+    function setInputEmpty(value, type) {
+        const currInput = {...inputsValues};
+        currInput[type] = value;
+        const inputList = Object.keys(currInput)
+        const dataInputs = inputList.filter((key) => currInput[key] === '');
+        if (inputList.length === 7 && dataInputs.length === 0) {
+            setDisableForm(false);
+        } else {
+            setDisableForm(true);
+        };
+        setInputValues(currInput);
+    };
 
     return (
         <MainStyle>
@@ -54,15 +88,15 @@ export function SignUp() {
                 <h1>Crie sua conta</h1>
                 <h2>Rápido e grátis, vamos nessa</h2>
                 <ContInput labelText='Nome' id='name'>
-                    <input placeholder='Digite aqui seu nome' id='name' type='text' {...register('name')}/>
+                    <input placeholder='Digite aqui seu nome' id='name' type='text' {...register('name')} onChange={(e) => setInputEmpty(e.target.value, 'name')} />
                 </ContInput>
                 {errors.name?.message}
                 <ContInput labelText='Email' id='email'>
-                    <input placeholder='Digite aqui seu email' id='email' type='email' {...register('email')}/>
+                    <input placeholder='Digite aqui seu email' id='email' type='email' {...register('email')} onChange={(e) => setInputEmpty(e.target.value, 'email')}/>
                 </ContInput> 
                 {errors.email?.message}
                 <ContInput labelText='Senha' id='password'>
-                        <input placeholder='Digite a sua senha' id='password' {...register('password')} type=
+                        <input placeholder='Digite a sua senha' id='password' {...register('password')} onChange={(e) => setInputEmpty(e.target.value, 'password')} type=
                         {
                             showPasswd1?
                             'text' :
@@ -72,7 +106,7 @@ export function SignUp() {
                 </ContInput> 
                 {errors.password?.message}
                 <ContInput labelText='Confirmar senha'  id='passwordConfirm'>
-                        <input placeholder='Digite novamente a senha' id='passwordConfirm' {...register('passwordConfirm')} type=
+                        <input placeholder='Digite novamente a senha' id='passwordConfirm' {...register('passwordConfirm')} onChange={(e) => setInputEmpty(e.target.value, 'passwordConfirm')} type=
                         {
                             showPasswd2?
                             'text' :
@@ -82,16 +116,16 @@ export function SignUp() {
                 </ContInput> 
                 {errors.passwordConfirm?.message}
                 <ContInput labelText='Bio' id='bio'>
-                    <input placeholder='Fale sobre você' id='bio' type='text' {...register('bio')}/>
+                    <input placeholder='Fale sobre você' id='bio' type='text' {...register('bio')} onChange={(e) => setInputEmpty(e.target.value, 'bio')}/>
                 </ContInput>
                 {errors.bio?.message}
                 <ContInput labelText='Contato' id='contact'>
-                    <input placeholder='Opção de contato' id='contact' type='tel' {...register('contact')}/>
+                    <input placeholder='Opção de contato' id='contact' type='tel' {...register('contact')} onChange={(e) => setInputEmpty(e.target.value, 'contact')}/>
                 </ContInput>
                 {errors.contact?.message}
                 <SelectStyle>
                     Selecionar módulo
-                    <select {...register('course_module')}>
+                    <select {...register('course_module')} onChange={(e) => setInputEmpty(e.target.value, 'select')}>
                         <option value='' style={{display:'none'}}>Escolher módulo</option>
                         <option value='Primeiro módulo (Introdução ao Frontend)'>Primeiro módulo</option>
                         <option value='Segundo módulo (Frontend Avançado)'>Segundo módulo</option>
@@ -100,7 +134,7 @@ export function SignUp() {
                     </select>
                 </SelectStyle>
                 {errors.course_module?.message}
-                <Button variant='primary' disabled={false}>Cadastrar</Button>
+                <Button variant='primary' type='submit' disabled={disableForm}>Cadastrar</Button>
             </FormStyle>
         </MainStyle>
     )
