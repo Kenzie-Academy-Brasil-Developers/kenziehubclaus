@@ -10,6 +10,7 @@ const ButtonVariant = {
     }
 
     :disabled {
+        cursor: context-menu;
         background-color: var(--color-primary-Negative);
     }
 

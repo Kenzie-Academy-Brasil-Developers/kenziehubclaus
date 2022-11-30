@@ -4,13 +4,13 @@ import { MainStyle, SelectStyle, HeaderStyle } from './styles';
 import { ContInput } from '../../components/ContInput';
 import { Button, LinkBtnStyle } from '../../styles/buttons'
 import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 export function SignUp() {
     const defaultColorBtn = { color: 'var(--grey-1)' };
@@ -19,10 +19,9 @@ export function SignUp() {
     const [currentBtn1, setCurrentBtn1] = useState(btnEye);
     const [showPasswd2, setShowPasswd2] = useState(false);
     const [currentBtn2, setCurrentBtn2] = useState(btnEye);
-    const [currUserData, setCurrUserData] = useState(null); 
     const [inputsValues, setInputValues] = useState({});
     const [disableForm, setDisableForm] = useState(true);
-    const [canSub, setCanSub] = useState(0);
+    const navigate = useNavigate();
     const formSchema = yup.object().shape({
         name: yup
             .string()
@@ -61,9 +60,12 @@ export function SignUp() {
         try { 
             toast.loading('Carregando', {toastId: 'load'});
             const response =  await api.post('/users', data);
-            toast.success('Usuário criado com sucesso', {toastId: 'success'});
-            console.log(response.data);
+            console.log(response);
             toast.dismiss('load');
+            if (response.status === 201) {
+                toast.success('Usuário criado com sucesso', {toastId: 'success'});
+                setTimeout(() => navigate('/login'), 4000);
+            }
         } catch(error) {
             toast.dismiss('load');
             if (error.response.data.message === 'Email already exists') {
@@ -75,6 +77,7 @@ export function SignUp() {
             console.log('deu ruim');
         } finally {
             console.log('acabou');
+            
         }
         
 
@@ -108,10 +111,10 @@ export function SignUp() {
         setInputValues(currInput);
     };
 
-
     return (
         <MainStyle>
             <ToastContainer
+            toastStyle={{ backgroundColor: 'var(--grey-2)' }}
             position='top-right'
             autoClose={3000}
             hideProgressBar={false}

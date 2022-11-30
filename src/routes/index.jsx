@@ -4,6 +4,7 @@ import { Dashboard } from '../pages/Dashboard';
 import { Login } from '../pages/Login';
 import { NotFound } from '../pages/NotFound';
 import { SignUp } from '../pages/SignUp';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function RoutesMain() {
     const [currUser, setCurrUser] = useState(null);

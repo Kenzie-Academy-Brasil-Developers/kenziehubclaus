@@ -11,8 +11,9 @@ import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { api } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
-export function Login({ currUser , setCurrUser }) {
+export function Login({ setCurrUser }) {
     const formSchema = yup.object().shape({
         email: yup
             .string()
@@ -35,20 +36,29 @@ export function Login({ currUser , setCurrUser }) {
 
     async function sendApiData(data) {
         try {
-            const response = await api.post('/sessions', data)
-            console.log(response)
+            setLoad(true);
+            toast.loading('Carregando', {toastId: 'load'});
+            const response = await api.post('/sessions', data);
+            console.log(response);
             localStorage.setItem('@Token', response.data.token);
             localStorage.setItem('@UserId', response.data.user.id);
-            setTimeout(() => navigate('/home'), 4000);
             setCurrUser(response.data.user);
+            toast.dismiss('load');
+            if (response.status === 200) {
+                toast.success('Login feito com sucesso', {toastId: 'success'});
+                setTimeout(() => navigate('/home'), 4000);
+            }
+            console.log(response);
         } catch(error) {
+            toast.dismiss('load');
             if (error.response.status === 401) {
-                console.log('Email ou senha incorretos');
+                toast.error('Email ou senha incorretos', {toastId: 'error'});
             }
             console.log(error)
         } finally {
-            console.log('terminou')
-        }
+            console.log('terminou');
+            setLoad(false);
+        };
     };
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -57,6 +67,16 @@ export function Login({ currUser , setCurrUser }) {
 
     return (
             <MainStyle>
+                 <ToastContainer
+                    toastStyle={{ backgroundColor: 'var(--grey-2)' }}
+                    position='top-right'
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    closeOnClick
+                    pauseOnHover
+                    theme='dark'
+                    limit={2}
+                />
                 <img src={logo} alt='Logo'/>
                 <FormStyle onSubmit={handleSubmit(sendApiData)} noValidate>
                     <h1>Login</h1>
