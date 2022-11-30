@@ -22,7 +22,7 @@ export function Login({ setCurrUser }) {
         password: yup
             .string()
             .required('A senha é obrigatória')
-    })
+    });
     const defaultColorBtn = { color: 'var(--grey-1)' };
     const [showPasswd, setShowPasswd] = useState(false);
     const [currentBtn, setCurrentBtn] = useState(<BsEyeFill style={defaultColorBtn}/>);
@@ -39,7 +39,6 @@ export function Login({ setCurrUser }) {
             setLoad(true);
             toast.loading('Carregando', {toastId: 'load'});
             const response = await api.post('/sessions', data);
-            console.log(response);
             localStorage.setItem('@Token', response.data.token);
             localStorage.setItem('@UserId', response.data.user.id);
             setCurrUser(response.data.user);
@@ -47,16 +46,13 @@ export function Login({ setCurrUser }) {
             if (response.status === 200) {
                 toast.success('Login feito com sucesso', {toastId: 'success'});
                 setTimeout(() => navigate('/home'), 4000);
-            }
-            console.log(response);
+            };
         } catch(error) {
             toast.dismiss('load');
             if (error.response.status === 401) {
                 toast.error('Email ou senha incorretos', {toastId: 'error'});
-            }
-            console.log(error)
+            };
         } finally {
-            console.log('terminou');
             setLoad(false);
         };
     };

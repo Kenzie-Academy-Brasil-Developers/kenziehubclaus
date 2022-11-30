@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function SignUp() {
     const defaultColorBtn = { color: 'var(--grey-1)' };
-    const btnEye = <BsEyeFill style={defaultColorBtn}/>
+    const btnEye = <BsEyeFill style={defaultColorBtn}/>;
     const [showPasswd1, setShowPasswd1] = useState(false);
     const [currentBtn1, setCurrentBtn1] = useState(btnEye);
     const [showPasswd2, setShowPasswd2] = useState(false);
@@ -56,11 +56,9 @@ export function SignUp() {
     });
 
     async function createUser(data) {
-        console.log(data)
         try { 
             toast.loading('Carregando', {toastId: 'load'});
             const response =  await api.post('/users', data);
-            console.log(response);
             toast.dismiss('load');
             if (response.status === 201) {
                 toast.success('Usuário criado com sucesso', {toastId: 'success'});
@@ -73,15 +71,8 @@ export function SignUp() {
             } else {
                 toast.error('Ops! Algo deu errado', {toastId: 'error'});
             }
-            console.log(error.response.data.message);
-            console.log('deu ruim');
-        } finally {
-            console.log('acabou');
-            
-        }
-        
-
-    }
+        } finally {}
+    };
 
     function changeVisibilityPasswd1() {
         setShowPasswd1(!showPasswd1);
@@ -101,7 +92,7 @@ export function SignUp() {
     function setInputEmpty(value, type) {
         const currInput = {...inputsValues};
         currInput[type] = value;
-        const inputList = Object.keys(currInput)
+        const inputList = Object.keys(currInput);
         const dataInputs = inputList.filter((key) => currInput[key] === '');
         if (inputList.length === 7 && dataInputs.length === 0) {
             setDisableForm(false);

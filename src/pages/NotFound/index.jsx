@@ -5,7 +5,6 @@ import { MainStyle } from './styles';
 
 export function NotFound() {
     const navigate = useNavigate();
-    
     return (
         <MainStyle>
             <h1>Oops! 404</h1>
@@ -13,5 +12,5 @@ export function NotFound() {
             <img src={imgNotFound} alt='Não encontramos sua página'/>
             <LinkBtnStyle onClick={() => navigate(-1)} variant='secondary'>Voltar</LinkBtnStyle>
         </MainStyle>
-    )
+    );
 };

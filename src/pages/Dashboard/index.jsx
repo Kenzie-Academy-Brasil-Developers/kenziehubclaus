@@ -28,8 +28,6 @@ export function Dashboard({ currUser }) {
     //     getUserInfoApi();
         
     // }, []);
-
-    console.log(currUser)
     
     return (
             <DashboardStyle>
