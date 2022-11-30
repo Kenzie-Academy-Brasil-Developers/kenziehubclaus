@@ -11,6 +11,7 @@ export const FormStyle = styled.form`
 
     legend, h2 {
         color: var(--grey-1);     
+        font-size: 12px;
     }
 
     legend {
@@ -19,7 +20,6 @@ export const FormStyle = styled.form`
     }
 
     h2 {
-        font-size: 12px;
         font-weight: var(--font-weight-1);
     }
 

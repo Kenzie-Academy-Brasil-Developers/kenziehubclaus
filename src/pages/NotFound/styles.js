@@ -7,7 +7,7 @@ export const MainStyle = styled.main`
     text-align: center;
     gap: 30px;
     align-items: center;
-
+    margin-bottom: 50px;
     h1 {
         font-size: 40px;
     }

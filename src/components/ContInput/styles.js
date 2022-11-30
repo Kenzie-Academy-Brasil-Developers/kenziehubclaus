@@ -20,6 +20,7 @@ export const ContInputStyle = styled.label`
         outline: none;
         border: none;
         color: var(--grey-0);
+        width: 95%;
     }
 
     div {
@@ -45,7 +46,7 @@ export const ContInputStyle = styled.label`
         border-color: var(--grey-0);
     }
 
-    button {
+    span {
         background-color: transparent;
         border: none;
         outline: none;
