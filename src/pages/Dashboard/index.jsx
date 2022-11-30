@@ -43,7 +43,7 @@ export function Dashboard({ currUser }) {
                     <ContainerStyle>
                         <section>
                             <h1>Olá, {currUser.name}</h1>
-                            <h3>{currUser.module}</h3>
+                            <h3>{currUser.course_module}</h3>
                         </section>
                     </ContainerStyle>
                 </main>
