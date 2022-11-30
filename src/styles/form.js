@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FormStyle = styled.form`
     display: flex;
     flex-direction: column;
-    gap: 26px;
+    gap: 20px;
     padding: 42px 22px;
     background-color: var(--grey-3);
     width: 325px;
@@ -21,6 +21,14 @@ export const FormStyle = styled.form`
 
     h2 {
         font-weight: var(--font-weight-1);
+    }
+
+    small {
+        user-select: none;
+        display: block;
+        font-size: 12px;
+        color: var(--color-negative);
+        margin-top: 8px;
     }
 
     @media(max-width: 900px) {

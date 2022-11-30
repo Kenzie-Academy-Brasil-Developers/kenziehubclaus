@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
+import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const ButtonVariant = {
     primary: css`
@@ -10,6 +10,7 @@ const ButtonVariant = {
     }
 
     :disabled {
+        cursor: context-menu;
         background-color: var(--color-primary-Negative);
     }
 

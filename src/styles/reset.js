@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 export const reset = css`
     html, body, div, span, applet, object, iframe,
