@@ -10,8 +10,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { api } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
-export function Login() {
+export function Login({ currUser , setCurrUser }) {
     const formSchema = yup.object().shape({
         email: yup
             .string()
@@ -24,47 +25,40 @@ export function Login() {
     const defaultColorBtn = { color: 'var(--grey-1)' };
     const [showPasswd, setShowPasswd] = useState(false);
     const [currentBtn, setCurrentBtn] = useState(<BsEyeFill style={defaultColorBtn}/>);
-    const [currUser, setCurrUser] = useState(null);
+    const navigate = useNavigate();
+    const [load, setLoad] = useState(false);/* Vira true antes da requisição */
 
     function changeVisibilityPasswd() {
         setShowPasswd(!showPasswd);
         showPasswd ? setCurrentBtn(<BsEyeFill style={defaultColorBtn}/>) : setCurrentBtn(<BsEyeSlashFill style={defaultColorBtn}/>);
-    };
+    };    
 
-    useEffect(() => {
-        if (!currUser) {return};
-        console.log('passei')
-        async function sendApiData() {
-            try {
-                const response = await api.post('/sessions', currUser)
-                console.log(response)
-            } catch(error) {
-                if (error.response.status === 401) {
-                    console.log('Email ou senha incorretos')
-                }
-            } finally {
-                console.log('terminou')
+    async function sendApiData(data) {
+        try {
+            const response = await api.post('/sessions', data)
+            console.log(response)
+            localStorage.setItem('@Token', response.data.token);
+            localStorage.setItem('@UserId', response.data.user.id);
+            setTimeout(() => navigate('/home'), 4000);
+            setCurrUser(response.data.user);
+        } catch(error) {
+            if (error.response.status === 401) {
+                console.log('Email ou senha incorretos');
             }
+            console.log(error)
+        } finally {
+            console.log('terminou')
         }
-        sendApiData()
-    }, [currUser]);
+    };
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });
 
-    function onSub(data) {
-        setCurrUser(data);
-        console.log(data);
-        
-    };
-
-    
-
     return (
             <MainStyle>
                 <img src={logo} alt='Logo'/>
-                <FormStyle onSubmit={handleSubmit(onSub)} noValidate>
+                <FormStyle onSubmit={handleSubmit(sendApiData)} noValidate>
                     <h1>Login</h1>
                     <div>
                         <ContInput labelText='Email' id='email'>

@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 export function SignUp() {
     const defaultColorBtn = { color: 'var(--grey-1)' };
@@ -56,47 +56,29 @@ export function SignUp() {
             .required('Você precisa escolher um módulo de curso')
     });
 
-    // const loading = new Promise(resolve => setTimeout(resolve, 7000));
-
-    // toast.promise(
-    //     loading,
-    //     {
-    //       pending: 'Promise is pending',
-    //       success: 'Promise resolved 👌',
-    //       error: 'Promise rejected 🤯'
-    //     }
-    // )
-    useEffect(() => {
-        console.log(currUserData)
-        if (!currUserData) {return};
-        toast.loading('Carregando', {toastId: 'load'});
-        async function createUser() {
-            try { /*Os toast duplicam*/
-                const response =  await api.post('/users', currUserData);
-                console.log(response)
-                toast.dismiss('load');
-                toast.success('Usuário criado com sucesso', {toastId: 'success'});
-                toast.dismiss('success');
-            } catch(error) {
-                toast.dismiss('load');
-                if (error.response.data.message === 'Email already exists') {
-                    toast.error('Esse email já existe, tente outro', {toastId: 'error'});
-                    // toast.dismiss('error');
-                } else {
-                    toast.error('Ops! Algo deu errado', {toastId: 'error'});
-                }
-                console.log(error.response.data.message)
-                console.log('deu ruim')
-            } finally {
-                // toast.dismiss('load');
-                // toast.dismiss('success');
-                // toast.info('Requisição finalizada', {toastId: 'finish'});
-                // toast.dismiss('finish');
-                // console.log('acabou')
+    async function createUser(data) {
+        console.log(data)
+        try { 
+            toast.loading('Carregando', {toastId: 'load'});
+            const response =  await api.post('/users', data);
+            toast.success('Usuário criado com sucesso', {toastId: 'success'});
+            console.log(response.data);
+            toast.dismiss('load');
+        } catch(error) {
+            toast.dismiss('load');
+            if (error.response.data.message === 'Email already exists') {
+                toast.error('Esse email já existe, tente outro', {toastId: 'error'});
+            } else {
+                toast.error('Ops! Algo deu errado', {toastId: 'error'});
             }
+            console.log(error.response.data.message);
+            console.log('deu ruim');
+        } finally {
+            console.log('acabou');
         }
-        createUser();
-    }, [currUserData]);
+        
+
+    }
 
     function changeVisibilityPasswd1() {
         setShowPasswd1(!showPasswd1);
@@ -112,10 +94,6 @@ export function SignUp() {
         resolver: yupResolver(formSchema)
     });
 
-    function onSub(data) {
-        setCurrUserData(data);
-        setCanSub(Math.random());
-    };
 
     function setInputEmpty(value, type) {
         const currInput = {...inputsValues};
@@ -135,18 +113,18 @@ export function SignUp() {
         <MainStyle>
             <ToastContainer
             position='top-right'
-            autoClose={5000}
+            autoClose={3000}
             hideProgressBar={false}
             closeOnClick
             pauseOnHover
             theme='dark'
-            limit={1}
+            limit={2}
             />
             <HeaderStyle>
                 <img src={logo} alt='Kenzie Hub'/>
                 <LinkBtnStyle to='/login' variant='tertiary'>Voltar</LinkBtnStyle>
             </HeaderStyle>
-            <FormStyle onSubmit={handleSubmit(onSub)} noValidate>
+            <FormStyle onSubmit={handleSubmit(createUser)} noValidate>
                 <h1>Crie sua conta</h1>
                 <h2>Rápido e grátis, vamos nessa</h2>
 
