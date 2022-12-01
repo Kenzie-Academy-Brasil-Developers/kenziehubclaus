@@ -23,6 +23,10 @@ export const ContInputStyle = styled.label`
         width: 95%;
     }
 
+    input:disabled {
+        color: var(--grey-1);
+    }
+
     div {
         display: flex;
         justify-content: space-between;

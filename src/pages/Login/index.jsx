@@ -27,7 +27,7 @@ export function Login({ setCurrUser }) {
     const [showPasswd, setShowPasswd] = useState(false);
     const [currentBtn, setCurrentBtn] = useState(<BsEyeFill style={defaultColorBtn}/>);
     const navigate = useNavigate();
-    const [load, setLoad] = useState(false);/* Vira true antes da requisição */
+    const [load, setLoad] = useState(false);
 
     function changeVisibilityPasswd() {
         setShowPasswd(!showPasswd);
@@ -78,13 +78,13 @@ export function Login({ setCurrUser }) {
                     <h1>Login</h1>
                     <div>
                         <ContInput labelText='Email' id='email'>
-                            <input placeholder='Digite o seu email' id='email' {...register('email')} type='email'/>
+                            <input disabled={load} placeholder='Digite o seu email' id='email' {...register('email')} type='email'/>
                         </ContInput>
                         <small>&nbsp;{errors.email?.message}&nbsp;</small>
                     </div>
                     <div>
                         <ContInput labelText='Senha'>
-                            <input placeholder='Digite a sua senha' id='password' {...register('password')} type=
+                            <input disabled={load} placeholder='Digite a sua senha' id='password' {...register('password')} type=
                             {
                                 showPasswd?
                                 'text' :
@@ -94,7 +94,7 @@ export function Login({ setCurrUser }) {
                         </ContInput>
                         <small>&nbsp;{errors.password?.message}&nbsp;</small>
                     </div>
-                    <Button variant='primary' type='submit'>Entrar</Button>
+                    <Button variant='primary' type='submit' disabled={load}>Entrar</Button>
                     <div>
                         <legend>Ainda não possuiu uma conta</legend>
                         <LinkBtnStyle to='/signup' variant='secondary'>Cadastre-se</LinkBtnStyle>

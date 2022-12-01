@@ -21,6 +21,7 @@ export function SignUp() {
     const [currentBtn2, setCurrentBtn2] = useState(btnEye);
     const [inputsValues, setInputValues] = useState({});
     const [disableForm, setDisableForm] = useState(true);
+    const [load, setLoad] = useState(false);
     const navigate = useNavigate();
     const formSchema = yup.object().shape({
         name: yup
@@ -57,6 +58,7 @@ export function SignUp() {
 
     async function createUser(data) {
         try { 
+            setLoad(true);
             toast.loading('Carregando', {toastId: 'load'});
             const response =  await api.post('/users', data);
             toast.dismiss('load');
@@ -71,7 +73,9 @@ export function SignUp() {
             } else {
                 toast.error('Ops! Algo deu errado', {toastId: 'error'});
             }
-        } finally {}
+        } finally {
+            setLoad(false);
+        }
     };
 
     function changeVisibilityPasswd1() {
@@ -124,21 +128,21 @@ export function SignUp() {
 
                 <div>
                     <ContInput labelText='Nome' id='name'>
-                        <input placeholder='Digite aqui seu nome' id='name' type='text' {...register('name')} onChange={(e) => setInputEmpty(e.target.value, 'name')} />
+                        <input disabled={load} placeholder='Digite aqui seu nome' id='name' type='text' {...register('name')} onChange={(e) => setInputEmpty(e.target.value, 'name')} />
                     </ContInput>
                     <small>&nbsp;{errors.name?.message}&nbsp;</small>
                 </div>
 
                 <div>
                     <ContInput labelText='Email' id='email'>
-                        <input placeholder='Digite aqui seu email' id='email' type='email' {...register('email')} onChange={(e) => setInputEmpty(e.target.value, 'email')}/>
+                        <input disabled={load} placeholder='Digite aqui seu email' id='email' type='email' {...register('email')} onChange={(e) => setInputEmpty(e.target.value, 'email')}/>
                     </ContInput>
                     <small>&nbsp;{errors.email?.message}&nbsp;</small>
                 </div>
 
                 <div>
                     <ContInput labelText='Senha' id='password'>
-                            <input placeholder='Digite a sua senha' id='password' {...register('password')} onChange={(e) => setInputEmpty(e.target.value, 'password')} type=
+                            <input disabled={load} placeholder='Digite a sua senha' id='password' {...register('password')} onChange={(e) => setInputEmpty(e.target.value, 'password')} type=
                             {
                                 showPasswd1?
                                 'text' :
@@ -151,7 +155,7 @@ export function SignUp() {
 
                 <div>
                     <ContInput labelText='Confirmar senha'  id='passwordConfirm'>
-                            <input placeholder='Digite novamente a senha' id='passwordConfirm' {...register('passwordConfirm')} onChange={(e) => setInputEmpty(e.target.value, 'passwordConfirm')} type=
+                            <input disabled={load} placeholder='Digite novamente a senha' id='passwordConfirm' {...register('passwordConfirm')} onChange={(e) => setInputEmpty(e.target.value, 'passwordConfirm')} type=
                             {
                                 showPasswd2?
                                 'text' :
@@ -164,14 +168,14 @@ export function SignUp() {
 
                 <div>
                     <ContInput labelText='Bio' id='bio'>
-                        <input placeholder='Fale sobre você' id='bio' type='text' {...register('bio')} onChange={(e) => setInputEmpty(e.target.value, 'bio')}/>
+                        <input disabled={load} placeholder='Fale sobre você' id='bio' type='text' {...register('bio')} onChange={(e) => setInputEmpty(e.target.value, 'bio')}/>
                     </ContInput>
                     <small>&nbsp;{errors.bio?.message}&nbsp;</small>
                 </div>
 
                 <div>
                     <ContInput labelText='Contato' id='contact'>
-                        <input placeholder='Opção de contato' id='contact' type='tel' {...register('contact')} onChange={(e) => setInputEmpty(e.target.value, 'contact')}/>
+                        <input disabled={load} placeholder='Opção de contato' id='contact' type='tel' {...register('contact')} onChange={(e) => setInputEmpty(e.target.value, 'contact')}/>
                     </ContInput>
                     <small>&nbsp;{errors.contact?.message}&nbsp;</small>
                 </div>
@@ -179,7 +183,7 @@ export function SignUp() {
                 <div>
                     <SelectStyle>
                         Selecionar módulo
-                        <select {...register('course_module')} onChange={(e) => setInputEmpty(e.target.value, 'select')}>
+                        <select disabled={load} {...register('course_module')} onChange={(e) => setInputEmpty(e.target.value, 'select')}>
                             <option value='' style={{display:'none'}}>Escolher módulo</option>
                             <option value='Primeiro módulo (Introdução ao Frontend)'>Primeiro módulo</option>
                             <option value='Segundo módulo (Frontend Avançado)'>Segundo módulo</option>
