@@ -1,9 +1,8 @@
 import logo from '../../assets/logo.svg';
 import { FormStyle } from '../../styles/form';
-import { MainStyle, SelectStyle, HeaderStyle } from './styles';
-import { ContInput } from '../../components/ContInput';
+import { MainStyle, HeaderStyle } from './styles';
+import { Input } from '../../components/Input';
 import { Button, LinkBtnStyle } from '../../styles/buttons'
-import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
 import { useState } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -11,17 +10,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { Select } from '../../components/Select';
+import { useContext } from 'react';
+import { UserContext } from '../../providers/UserContext';
 
 export function SignUp() {
-    const defaultColorBtn = { color: 'var(--grey-1)' };
-    const btnEye = <BsEyeFill style={defaultColorBtn}/>;
-    const [showPasswd1, setShowPasswd1] = useState(false);
-    const [currentBtn1, setCurrentBtn1] = useState(btnEye);
-    const [showPasswd2, setShowPasswd2] = useState(false);
-    const [currentBtn2, setCurrentBtn2] = useState(btnEye);
     const [inputsValues, setInputValues] = useState({});
     const [disableForm, setDisableForm] = useState(true);
-    const [load, setLoad] = useState(false);
+    const { load , setLoad } = useContext(UserContext);
     const navigate = useNavigate();
     const formSchema = yup.object().shape({
         name: yup
@@ -78,16 +74,6 @@ export function SignUp() {
         }
     };
 
-    function changeVisibilityPasswd1() {
-        setShowPasswd1(!showPasswd1);
-        showPasswd1 ? setCurrentBtn1(<BsEyeFill style={defaultColorBtn}/>) : setCurrentBtn1(<BsEyeSlashFill style={defaultColorBtn}/>);
-    };
-
-    function changeVisibilityPasswd2() {
-        setShowPasswd2(!showPasswd2);
-        showPasswd2 ? setCurrentBtn2(<BsEyeFill style={defaultColorBtn}/>) : setCurrentBtn2(<BsEyeSlashFill style={defaultColorBtn}/>);
-    };
-
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });
@@ -98,7 +84,7 @@ export function SignUp() {
         currInput[type] = value;
         const inputList = Object.keys(currInput);
         const dataInputs = inputList.filter((key) => currInput[key] === '');
-        if (inputList.length === 7 && dataInputs.length === 0) {
+        if (inputList.length === 6 && dataInputs.length === 0) {
             setDisableForm(false);
         } else {
             setDisableForm(true);
@@ -126,76 +112,104 @@ export function SignUp() {
                 <h1>Crie sua conta</h1>
                 <h2>Rápido e grátis, vamos nessa</h2>
 
-                <div>
-                    <ContInput labelText='Nome' id='name'>
-                        <input disabled={load} placeholder='Digite aqui seu nome' id='name' type='text' {...register('name')} onChange={(e) => setInputEmpty(e.target.value, 'name')} />
-                    </ContInput>
-                    <small>&nbsp;{errors.name?.message}&nbsp;</small>
-                </div>
+                <Input 
+                    error={errors.name?.message} 
+                    labelText='Nome' 
+                    type='text' 
+                    id='name' 
+                    placeholder='Digite aqui seu nome' 
+                    disabled={load} 
+                    onChange={(e) => setInputEmpty(e.target.value, 'name')} 
+                    register={register('name')}
+                />
 
-                <div>
-                    <ContInput labelText='Email' id='email'>
-                        <input disabled={load} placeholder='Digite aqui seu email' id='email' type='email' {...register('email')} onChange={(e) => setInputEmpty(e.target.value, 'email')}/>
-                    </ContInput>
-                    <small>&nbsp;{errors.email?.message}&nbsp;</small>
-                </div>
+                <Input 
+                    error={errors.email?.message} 
+                    labelText='Email' 
+                    type='email' 
+                    id='email' 
+                    placeholder='Digite aqui seu email' 
+                    disabled={load} 
+                    onChange={(e) => setInputEmpty(e.target.value, 'email')} 
+                    register={register('email')}
+                />
 
-                <div>
-                    <ContInput labelText='Senha' id='password'>
-                            <input disabled={load} placeholder='Digite a sua senha' id='password' {...register('password')} onChange={(e) => setInputEmpty(e.target.value, 'password')} type=
+                <Input 
+                    error={errors.password?.message} 
+                    labelText='Senha' 
+                    type='password' 
+                    id='password' 
+                    placeholder='Digite a sua senha' 
+                    disabled={load} 
+                    onChange={(e) => setInputEmpty(e.target.value, 'password')} 
+                    register={register('password')}
+                />
+
+                <Input 
+                    error={errors.passwordConfirm?.message} 
+                    labelText='Confirmar senha' 
+                    type='password' 
+                    id='passwordConfirm' 
+                    placeholder='Digite novamente a senha' 
+                    disabled={load} 
+                    onChange={(e) => setInputEmpty(e.target.value, 'passwordConfirm')} 
+                    register={register('passwordConfirm')}
+                />
+
+                <Input 
+                    error={errors.bio?.message} 
+                    labelText='Bio' 
+                    type='text' 
+                    id='bio' 
+                    placeholder='Fale sobre você' 
+                    disabled={load} 
+                    onChange={(e) => setInputEmpty(e.target.value, 'bio')} 
+                    register={register('bio')}
+                />
+
+                <Input
+                    error={errors.contact?.message}
+                    labelText='Contato'
+                    type='tel'
+                    id='contact'
+                    placeholder='Opção de contato'
+                    disabled={load} 
+                    onChange={(e) => setInputEmpty(e.target.value, 'contact')}
+                    register={register('contact')}
+                />
+                
+                <Select
+                    error={errors.course_module?.message}
+                    labelText='Selecionar módulo'
+                    explanation='Escolher módulo'
+                    id='selectModule'
+                    disabled={load} 
+                    onChange={(e) => setInputEmpty(e.target.value, 'select')}
+                    register={register('course_module')}
+                    arrayOptions={
+                        [
                             {
-                                showPasswd1?
-                                'text' :
-                                'password'
-                            }/>
-                            <span onClick={changeVisibilityPasswd1}>{currentBtn1}</span>
-                    </ContInput>
-                    <small>&nbsp;{errors.password?.message}&nbsp;</small>
-                </div>
-
-                <div>
-                    <ContInput labelText='Confirmar senha'  id='passwordConfirm'>
-                            <input disabled={load} placeholder='Digite novamente a senha' id='passwordConfirm' {...register('passwordConfirm')} onChange={(e) => setInputEmpty(e.target.value, 'passwordConfirm')} type=
+                                value: 'Primeiro módulo (Introdução ao Frontend)',
+                                text: 'Primeiro módulo'
+                            },
                             {
-                                showPasswd2?
-                                'text' :
-                                'password'
-                            }/>
-                            <span onClick={changeVisibilityPasswd2}>{currentBtn2}</span>
-                    </ContInput>
-                    <small>&nbsp;{errors.passwordConfirm?.message}&nbsp;</small>
-                </div>
+                                value: 'Segundo módulo (Frontend Avançado)',
+                                text: 'Segundo módulo'
+                            },
+                            {
+                                value: 'Terceiro módulo (Introdução ao Backend)',
+                                text: 'Terceiro módulo'
+                            },
+                            {
+                                value: 'Quarto módulo (Backend Avançado)',
+                                text: 'Quarto módulo'
+                            }
+                        ]
+                    }
+                />
 
-                <div>
-                    <ContInput labelText='Bio' id='bio'>
-                        <input disabled={load} placeholder='Fale sobre você' id='bio' type='text' {...register('bio')} onChange={(e) => setInputEmpty(e.target.value, 'bio')}/>
-                    </ContInput>
-                    <small>&nbsp;{errors.bio?.message}&nbsp;</small>
-                </div>
-
-                <div>
-                    <ContInput labelText='Contato' id='contact'>
-                        <input disabled={load} placeholder='Opção de contato' id='contact' type='tel' {...register('contact')} onChange={(e) => setInputEmpty(e.target.value, 'contact')}/>
-                    </ContInput>
-                    <small>&nbsp;{errors.contact?.message}&nbsp;</small>
-                </div>
-
-                <div>
-                    <SelectStyle>
-                        Selecionar módulo
-                        <select disabled={load} {...register('course_module')} onChange={(e) => setInputEmpty(e.target.value, 'select')}>
-                            <option value='' style={{display:'none'}}>Escolher módulo</option>
-                            <option value='Primeiro módulo (Introdução ao Frontend)'>Primeiro módulo</option>
-                            <option value='Segundo módulo (Frontend Avançado)'>Segundo módulo</option>
-                            <option value='Terceiro módulo (Introdução ao Backend)'>Terceiro módulo</option>
-                            <option value='Quarto módulo (Backend Avançado)'>Quarto módulo</option>
-                        </select>
-                    </SelectStyle>
-                    <small>&nbsp;{errors.course_module?.message}&nbsp;</small>
-                </div>
-
-                <Button variant='primary' type='submit' disabled={disableForm}>Cadastrar</Button>
+                <Button variant='primary' type='submit' disabled={disableForm || load}>Cadastrar</Button>
             </FormStyle>
         </MainStyle>
-    )
+    );
 };

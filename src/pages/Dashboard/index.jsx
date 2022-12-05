@@ -1,34 +1,16 @@
+import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import logo from '../../assets/logo.svg';
+import { UserContext } from '../../providers/UserContext';
 import { api } from '../../services/api';
 import { LinkBtnStyle } from '../../styles/buttons';
 import { ContainerStyle, DashboardStyle } from './styles';
 
-export function Dashboard({ currUser }) {
-    // useEffect(() => {
-    //     async function getUserInfoApi() {
-    //         try {
-    //             const response = await api.get('/profile', {
-    //                 headers: {
-    //                     'Authorization': `Bearer ${localStorage.getItem('@Token')}`
-    //                 }
-    //             });
-    //             const currentUser = {
-    //                 name: response.data.name,
-    //                 module: response.data.course_module
-    //             }
-    //             setUserDate(currentUser);
-    //             console.log(response);
-    //         } catch(error) {
-    
-    //         } finally {
-    
-    //         }
-    //     }
-    //     getUserInfoApi();
-        
-    // }, []);
-    
+export function Dashboard() {
+    const { currUser } = useContext(UserContext);
+    console.log(currUser)
+    console.log(currUser.techs)
+    console.log(currUser.works)
     return (
             <DashboardStyle>
                 <ContainerStyle>
@@ -46,8 +28,7 @@ export function Dashboard({ currUser }) {
                     </ContainerStyle>
                 </main>
                 <ContainerStyle>
-                    <h1>Que pena! Estamos em desenvolvimento :(</h1>
-                    <h2>Nossa aplicação está em desenvolvimento, em breve teremos novidades</h2>
+                    
                 </ContainerStyle>
             </DashboardStyle>
     );
