@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 export const ContainerStyle = styled.div`
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1000px;
     padding: 0 12px;
     margin-top: 23px;
+
 `;
 
 export const DashboardStyle = styled.div`
@@ -52,5 +53,47 @@ export const DashboardStyle = styled.div`
 
     section {
         padding: 44px 0;
+    }
+`;
+
+export const TechsStyle = styled.div`
+    > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+        
+        button {
+            border: none;
+            border-radius: var(--radius-1);
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            color: var(--white-0);
+            cursor: pointer;
+            background-color: var(--grey-3);
+            transition: 0.5s;
+            padding: 11px;
+        }
+
+        button:hover {
+            background-color: var(--grey-2);
+        }
+    }
+
+    h2 {
+        font-size: 16px;
+        font-weight: var(--font-weight-3);
+        color: var(--grey-0);
+    }
+
+
+    ul {
+        background-color: var(--grey-3);
+        padding: 23px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border-radius: var(--radius-1);
     }
 `;
