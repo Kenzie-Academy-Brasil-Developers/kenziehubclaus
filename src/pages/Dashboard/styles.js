@@ -4,9 +4,7 @@ export const ContainerStyle = styled.div`
     margin: 0 auto;
     max-width: 1200px;
     padding: 0 12px;
-    > h1 {
-        margin-bottom: 23px;
-    }
+    margin-top: 23px;
 `;
 
 export const DashboardStyle = styled.div`
