@@ -1,16 +1,16 @@
 import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import logo from '../../assets/logo.svg';
+import { Tech } from '../../components/Tech';
 import { UserContext } from '../../providers/UserContext';
 import { api } from '../../services/api';
 import { LinkBtnStyle } from '../../styles/buttons';
-import { ContainerStyle, DashboardStyle } from './styles';
+import { ContainerStyle, DashboardStyle, TechsStyle } from './styles';
+import { FaPlus } from 'react-icons/fa';
 
 export function Dashboard() {
     const { currUser } = useContext(UserContext);
-    console.log(currUser)
     console.log(currUser.techs)
-    console.log(currUser.works)
     return (
             <DashboardStyle>
                 <ContainerStyle>
@@ -28,7 +28,19 @@ export function Dashboard() {
                     </ContainerStyle>
                 </main>
                 <ContainerStyle>
-                    
+                    <TechsStyle>
+                        <div>
+                            <h2>Tecnologias</h2>
+                            <button><FaPlus/></button>
+                        </div>
+                        <ul>
+                            {
+                            currUser.techs && currUser.techs.map(({id,title,status}) =>
+                            <Tech key={id} title={title} status={status} id={id}/>
+                            )
+                            }
+                        </ul>
+                    </TechsStyle>
                 </ContainerStyle>
             </DashboardStyle>
     );
