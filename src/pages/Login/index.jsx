@@ -4,7 +4,7 @@ import { Input } from '../../components/Input'
 import { Button, LinkBtnStyle } from '../../styles/buttons'
 import { FormStyle } from '../../styles/form';
 import { MainStyle } from './styles';
-import * as yup from 'yup';
+import { formSchema } from './validation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
@@ -16,15 +16,6 @@ import { UserContext } from '../../providers/UserContext';
 
 export function Login() {
     const { setCurrUser , saveToken , saveUserId } = useContext(UserContext);
-    const formSchema = yup.object().shape({
-        email: yup
-            .string()
-            .required('O email é obrigatório')
-            .email('Não é um email válido'),
-        password: yup
-            .string()
-            .required('A senha é obrigatória')
-    });
     const navigate = useNavigate();
     const [load, setLoad] = useState(false);
     async function sendApiData(data) {

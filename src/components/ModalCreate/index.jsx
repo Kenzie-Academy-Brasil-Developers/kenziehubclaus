@@ -1,48 +1,28 @@
-import { useState } from 'react';
 import { Button } from '../../styles/buttons';
 import { Input } from '../Input';
 import { Select } from '../Select';
 import { ModalStyle, ModalWrapperStyle } from '../../styles/modal';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup'
 import { api } from '../../services/api';
 import { toast, ToastContainer } from 'react-toastify';
+import { useContext } from 'react';
+import { TechContext } from '../../providers/TechContext';
+import { formSchema } from './validation';
 
-export function ModalCreate({ isModalOpen }) {
-    const [load, setLoad] = useState(false);
+export function ModalCreate() {
+    const {
+        createTech,
+        load,
+        setOpenModalCreateTech
+    } = useContext(TechContext);
 
-    const formSchema = yup.object().shape({
-        title: yup.string().required('O título é obrigatório'),
-        status: yup.string().required('O status é obrigatório')
-    });
+    
 
     const { register , handleSubmit , formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });
 
-    async function createTech(data) {
-        setLoad(true);
-        const token = localStorage.getItem('@Token');
-        try {
-            toast.loading('Carregando...', { toastId: 'load' });
-            const response = await api.post('/users/techs', data, {
-                headers: {
-                'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.status === 201) {
-                toast.dismiss('load');
-                toast.success('Tecnologia adicionada com sucesso');
-            }
-        } catch(error) {
-            console.log(error)
-            toast.error('Ops! ocorreu um erro, tente novamente');
-        } finally {
-            toast.dismiss('load');
-            setLoad(false);
-        }
-    }
 
     
 
@@ -61,12 +41,12 @@ export function ModalCreate({ isModalOpen }) {
             <ModalStyle>
                 <div>
                     <h2>Cadastrar Tecnologia</h2>
-                    <button onClick={() => isModalOpen(false)}>X</button>
+                    <button onClick={() => setOpenModalCreateTech(false)}>X</button>
                 </div>
                 <form onSubmit={handleSubmit(createTech)} noValidate>
                     <Input 
                         id='name'
-                        labelText='Nome'
+                        labelText='Nome do projeto'
                         placeholder='Digite o nome da tecnologia'
                         type='text'
                         disabled={load}
@@ -97,7 +77,7 @@ export function ModalCreate({ isModalOpen }) {
                             ]
                         }
                     />
-                    <Button type='submit' variant='primary'>Cadastrar tecnologia</Button>
+                    <Button type='submit' variant='primary' disabled={load}>Cadastrar tecnologia</Button>
                 </form>
             </ModalStyle>
         </ModalWrapperStyle>

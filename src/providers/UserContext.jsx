@@ -14,7 +14,12 @@ export function UserProvider({children}) {
     }
 
     return (
-        <UserContext.Provider value={{ currUser , setCurrUser , saveToken , saveUserId }}>
+        <UserContext.Provider value={{
+            currUser, 
+            setCurrUser, 
+            saveToken, 
+            saveUserId 
+        }}>
             {children}
         </UserContext.Provider>
     );

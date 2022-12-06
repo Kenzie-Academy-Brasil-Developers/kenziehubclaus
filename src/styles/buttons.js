@@ -10,7 +10,6 @@ const ButtonVariant = {
     }
 
     :disabled {
-        cursor: context-menu;
         background-color: var(--color-primary-Negative);
     }
 
@@ -44,6 +43,11 @@ export const Button = styled.button`
     border: none;
     line-height: 26px;
     border-radius: var(--radius-1);
+    
+    :disabled {
+        cursor: context-menu;
+    }
+
     ${({variant}) => ButtonVariant[variant]};
 `;
 

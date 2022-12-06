@@ -8,46 +8,78 @@ import { LinkBtnStyle } from '../../styles/buttons';
 import { ContainerStyle, DashboardStyle, TechsStyle } from './styles';
 import { FaPlus } from 'react-icons/fa';
 import { ModalCreate } from '../../components/ModalCreate';
+import { TechContext } from '../../providers/TechContext';
+import { ModalDelete } from '../../components/ModalDelete';
 
 export function Dashboard() {
-    const { currUser } = useContext(UserContext);
-    const [openModalCreateTech, setOpenModalCreateTech] = useState(false);
+    const { currUser , setCurrUser } = useContext(UserContext);
+    
+    const { 
+        changesOnList,
+        openModalCreateTech,
+        setOpenModalCreateTech,
+        openModalDeleteTech
+    } = useContext(TechContext);
 
     let optionScroll = openModalCreateTech ? 'hidden' : 'unset';  
     document.body.style.overflowY = optionScroll;
 
+    useEffect(() => {
+        async function getUserInfoApi() {
+            const token = localStorage.getItem('@Token');
+            try {
+                const response = await api.get('/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setCurrUser(response.data);
+            } catch(error) {
+                console.log(error);
+            } finally {
+            }
+        }
+
+        getUserInfoApi();
+
+    }, [changesOnList]);
+
     return (
-            <DashboardStyle>
-                <ContainerStyle>
-                    <header>
-                        <img src={logo} alt='Kenzie Hub'/>
-                        <LinkBtnStyle variant='tertiary' onClick={() => localStorage.clear()} to='/login'>Sair</LinkBtnStyle>
-                    </header>
-                </ContainerStyle>
-                <main>
+                <DashboardStyle>
                     <ContainerStyle>
-                        <section>
-                            <h1>Olá, {currUser.name}</h1>
-                            <h3>{currUser.course_module}</h3>
-                        </section>
+                        <header>
+                            <img src={logo} alt='Kenzie Hub'/>
+                            <LinkBtnStyle variant='tertiary' onClick={() => localStorage.clear()} to='/login'>Sair</LinkBtnStyle>
+                        </header>
                     </ContainerStyle>
-                </main>
-                <ContainerStyle>
-                    <TechsStyle>
-                        <div>
-                            <h2>Tecnologias</h2>
-                            <button onClick={() => setOpenModalCreateTech(true)}><FaPlus/></button>
-                        </div>
-                        <ul>
-                            {
-                            currUser.techs && currUser.techs.map(({id,title,status}) =>
-                            <Tech key={id} title={title} status={status} id={id}/>
-                            )
-                            }
-                        </ul>
-                    </TechsStyle>
-                </ContainerStyle>
-             {openModalCreateTech && <ModalCreate isModalOpen={setOpenModalCreateTech}/>}
-            </DashboardStyle>
+                    <main>
+                        <ContainerStyle>
+                            <section>
+                                <h1>Olá, {currUser.name}</h1>
+                                <h3>{currUser.course_module}</h3>
+                            </section>
+                        </ContainerStyle>
+                    </main>
+                    <ContainerStyle>
+                        <TechsStyle>
+                        
+                            <div>
+                                <h2>Tecnologias</h2>
+                                <button onClick={() => setOpenModalCreateTech(true)}><FaPlus/></button>
+                            </div>
+                            <ul>
+                                {
+                                currUser.techs && currUser.techs.map(el =>
+                                <Tech key={el.id} title={el.title} status={el.status} id={el.id} allTechInfo={el}/>
+                                )
+                                }
+                            </ul>
+                            
+                            
+                        </TechsStyle>
+                    </ContainerStyle>
+                    {openModalCreateTech && <ModalCreate/>}
+                    {openModalDeleteTech && <ModalDelete/>}
+                </DashboardStyle>
     );
 };
