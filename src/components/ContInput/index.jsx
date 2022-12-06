@@ -17,7 +17,7 @@ export function Input({ error, id, labelText , placeholder , type , register , d
             setCurrType('password');
             setCurrentBtn(<BsEyeFill style={defaultColorBtn}/>);
         }
-    };  
+    }  
 
     return (
         <>
@@ -38,5 +38,5 @@ export function Input({ error, id, labelText , placeholder , type , register , d
         </ContInputStyle>
         <small>&nbsp;{error}&nbsp;</small>
         </>
-    );
-};
+    )
+}

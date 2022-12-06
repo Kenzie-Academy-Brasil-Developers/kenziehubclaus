@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import { Animations } from './animations';
 import { reset } from './reset';
 import { typography } from './typography';
 
@@ -32,6 +33,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     ${() => typography};
+    ${() => Animations};
 
     body::-webkit-scrollbar {
         width: 10px;

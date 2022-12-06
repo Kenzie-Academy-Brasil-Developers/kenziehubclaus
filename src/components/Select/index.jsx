@@ -1,9 +1,9 @@
-import { useRef } from "react";
-import { useState } from "react";
-import { ErrorStyle, SelectStyle } from "./styles";
+import { useRef } from 'react';
+import { useState } from 'react';
+import { ErrorStyle, SelectStyle } from './styles';
 
 export function Select({ error, id, labelText , register , onChange , disabled , arrayOptions , explanation }) {
-    const [showExplanation, setShowExplanation] = useState(true);
+    const [showExplanation] = useState(true);
     const sel = useRef(null);
 
     return (
@@ -19,5 +19,5 @@ export function Select({ error, id, labelText , register , onChange , disabled ,
             </SelectStyle>
             <ErrorStyle>&nbsp;{error}&nbsp;</ErrorStyle>
         </div>
-    );
-};
+    )
+}

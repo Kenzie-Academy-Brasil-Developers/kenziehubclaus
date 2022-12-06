@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext } from 'react';
 import logo from '../../assets/logo.svg';
 import { Input } from '../../components/Input'
 import { Button, LinkBtnStyle } from '../../styles/buttons'
@@ -7,7 +7,6 @@ import { MainStyle } from './styles';
 import { formSchema } from './validation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { api } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
@@ -30,16 +29,16 @@ export function Login() {
             if (response.status === 200) {
                 toast.success('Login feito com sucesso', {toastId: 'success'});
                 setTimeout(() => navigate('/home'), 4000);
-            };
+            }
         } catch(error) {
             toast.dismiss('load');
             if (error.response.status === 401) {
                 toast.error('Email ou senha incorretos', {toastId: 'error'});
-            };
+            }
         } finally {
             setLoad(false);
-        };
-    };
+        }
+    }
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
@@ -86,5 +85,5 @@ export function Login() {
                 </FormStyle>
             
             </MainStyle>
-    );
-};
+    )
+}

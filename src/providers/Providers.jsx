@@ -1,5 +1,4 @@
-import { TechProvider } from "./TechContext";
-import { UserProvider } from "./UserContext";
+import { UserProvider } from './UserContext';
 
 
 export function Providers({children}) {
@@ -7,15 +6,5 @@ export function Providers({children}) {
         <UserProvider>
                 {children}
         </UserProvider>
-    );
-};
-
-// export function Providers({children}) {
-//     return (
-//         <UserProvider>
-//             <TechProvider>
-//                 {children}
-//             </TechProvider>
-//         </UserProvider>
-//     );
-// };
+    )
+}

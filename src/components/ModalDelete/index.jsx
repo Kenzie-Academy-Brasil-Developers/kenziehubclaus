@@ -1,17 +1,14 @@
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
-import { TechContext } from "../../providers/TechContext";
-import { api } from "../../services/api";
-import { Button } from "../../styles/buttons";
-import { ModalStyle, ModalWrapperStyle } from "../../styles/modal";
-import { Input } from "../Input";
-import { Select } from "../Select";
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { ToastContainer } from 'react-toastify';
+import { TechContext } from '../../providers/TechContext';
+import { Button } from '../../styles/buttons';
+import { ModalStyle, ModalWrapperStyle } from '../../styles/modal';
+import { Input } from '../Input';
+import { Select } from '../Select';
 
 export function ModalDelete() {
     const { 
-        changesOnList,
-        openModalDeleteTech,
         setOpenModalDeleteTech,
         currTech,
         load,
@@ -19,8 +16,6 @@ export function ModalDelete() {
     } = useContext(TechContext);
         
     const { handleSubmit } = useForm();
-
-    
 
     return (
         <ModalWrapperStyle>

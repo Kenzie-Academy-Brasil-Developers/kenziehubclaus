@@ -1,50 +1,29 @@
 import { useContext } from 'react';
-import { useEffect, useState } from 'react';
 import logo from '../../assets/logo.svg';
 import { Tech } from '../../components/Tech';
-import { UserContext } from '../../providers/UserContext';
-import { api } from '../../services/api';
 import { LinkBtnStyle } from '../../styles/buttons';
-import { ContainerStyle, DashboardStyle, TechsStyle } from './styles';
+import { ContainerStyle, DashboardStyle, LoadingStyle, TechsStyle } from './styles';
 import { FaPlus } from 'react-icons/fa';
 import { ModalCreate } from '../../components/ModalCreate';
 import { TechContext } from '../../providers/TechContext';
 import { ModalDelete } from '../../components/ModalDelete';
 import { ModalEdit } from '../../components/ModalEdit';
+import { UserContext } from '../../providers/UserContext';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 export function Dashboard() {
-    const { currUser , setCurrUser } = useContext(UserContext);
-    
+    const { currUser , loadingPage } = useContext(UserContext);
     const { 
-        changesOnList,
         openModalCreateTech,
         setOpenModalCreateTech,
         openModalDeleteTech,
-        openModalEditTech
+        openModalEditTech,
     } = useContext(TechContext);
 
-    let optionScroll = openModalCreateTech ? 'hidden' : 'unset';  
-    document.body.style.overflowY = optionScroll;
-
-    useEffect(() => {
-        async function getUserInfoApi() {
-            const token = localStorage.getItem('@Token');
-            try {
-                const response = await api.get('/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setCurrUser(response.data);
-            } catch(error) {
-                console.log(error);
-            } finally {
-            }
-        }
-
-        getUserInfoApi();
-
-    }, [changesOnList]);
+    if (loadingPage) {
+        document.body.style.overflowX = 'hidden';
+        return <><LoadingStyle><AiOutlineLoading/></LoadingStyle></>
+    }
 
     return (
                 <DashboardStyle>
@@ -84,5 +63,5 @@ export function Dashboard() {
                     {openModalDeleteTech && <ModalDelete/>}
                     {openModalEditTech && <ModalEdit/>}
                 </DashboardStyle>
-    );
-};
+    )
+}

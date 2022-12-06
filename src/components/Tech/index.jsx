@@ -5,7 +5,6 @@ import { TechContext } from '../../providers/TechContext';
 import { useContext } from 'react';
 
 export function Tech({ title , status , id , allTechInfo }) {
-
     const { 
         setCurrTech,
         setOpenModalDeleteTech,
@@ -32,4 +31,4 @@ export function Tech({ title , status , id , allTechInfo }) {
             </div>
         </CardStyle>
     )
-};
+}

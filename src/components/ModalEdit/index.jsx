@@ -1,26 +1,25 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
-import { TechContext } from "../../providers/TechContext";
-import { Button } from "../../styles/buttons";
-import { ModalStyle, ModalWrapperStyle } from "../../styles/modal";
-import { Select } from "../Select";
-import { formSchema } from "./validation";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { ToastContainer } from 'react-toastify';
+import { TechContext } from '../../providers/TechContext';
+import { Button } from '../../styles/buttons';
+import { ModalStyle, ModalWrapperStyle } from '../../styles/modal';
+import { Input } from '../Input';
+import { Select } from '../Select';
+import { formSchema } from './validation';
 
 export function ModalEdit() {
-
     const { 
         load,
         setOpenModalEditTech,
-        updateTech
-
+        updateTech,
+        currTech
     } = useContext(TechContext);
 
-    //colocar o form
     const { register, handleSubmit , formState: {errors} } = useForm({
         resolver: yupResolver(formSchema)
-    })
+    });
 
     return (
         <ModalWrapperStyle>
@@ -40,6 +39,12 @@ export function ModalEdit() {
                     <button onClick={() => setOpenModalEditTech(false)}>X</button>
                 </div>
                 <form onSubmit={handleSubmit(updateTech)} noValidate>
+                    <Input 
+                        id='name'
+                        labelText='Nome do projeto'
+                        disabled={true}
+                        value={currTech.title}
+                    />
                     <Select
                         id='status'
                         labelText='Status'

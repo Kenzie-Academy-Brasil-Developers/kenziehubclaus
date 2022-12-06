@@ -11,7 +11,6 @@ export function App() {
           <RoutesMain/>
         </Providers>
     </>
-  );
+  )
 }
-
 

@@ -12,5 +12,5 @@ export function NotFound() {
             <img src={imgNotFound} alt='Não encontramos sua página'/>
             <LinkBtnStyle onClick={() => navigate(-1)} variant='secondary'>Voltar</LinkBtnStyle>
         </MainStyle>
-    );
-};
+    )
+}

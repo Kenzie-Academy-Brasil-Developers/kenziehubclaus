@@ -42,8 +42,6 @@ export const SelectStyle = styled.label`
 
     select:disabled {
         cursor: unset;
-        /* color: transparent; */
-        content: 'S';
     }
     
 `;

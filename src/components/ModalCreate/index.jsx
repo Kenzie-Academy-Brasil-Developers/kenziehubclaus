@@ -4,8 +4,7 @@ import { Select } from '../Select';
 import { ModalStyle, ModalWrapperStyle } from '../../styles/modal';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
-import { api } from '../../services/api';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useContext } from 'react';
 import { TechContext } from '../../providers/TechContext';
 import { formSchema } from './validation';
@@ -17,14 +16,9 @@ export function ModalCreate() {
         setOpenModalCreateTech
     } = useContext(TechContext);
 
-    
-
     const { register , handleSubmit , formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });
-
-
-    
 
     return (
         <ModalWrapperStyle>

@@ -40,7 +40,7 @@ export function SignUp() {
         } finally {
             setLoad(false);
         }
-    };
+    }
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
@@ -56,9 +56,9 @@ export function SignUp() {
             setDisableForm(false);
         } else {
             setDisableForm(true);
-        };
+        }
         setInputValues(currInput);
-    };
+    }
 
     return (
         <MainStyle>
@@ -179,5 +179,5 @@ export function SignUp() {
                 <Button variant='primary' type='submit' disabled={disableForm || load}>Cadastrar</Button>
             </FormStyle>
         </MainStyle>
-    );
-};
+    )
+}
