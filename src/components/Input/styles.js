@@ -59,3 +59,12 @@ export const ContInputStyle = styled.label`
         align-items: center;
     }
 `;
+
+export const ErrorStyle = styled.small`
+    user-select: none;
+    display: block;
+    font-size: 12px;
+    color: var(--color-negative);
+    margin-top: 8px;
+    text-align: center;
+`;
