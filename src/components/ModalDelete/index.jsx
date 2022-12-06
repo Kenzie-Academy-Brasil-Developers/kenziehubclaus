@@ -9,7 +9,6 @@ import { Input } from "../Input";
 import { Select } from "../Select";
 
 export function ModalDelete() {
-
     const { 
         changesOnList,
         openModalDeleteTech,
@@ -44,13 +43,13 @@ export function ModalDelete() {
                     <Input 
                         id='name'
                         labelText='Nome do projeto'
-                        disabled={'true'}
+                        disabled={true}
                         value={currTech.title}
                     />
                     <Select
                         id='status'
                         labelText='Status'
-                        disabled={'true'}
+                        disabled={true}
                         arrayOptions={
                             [
                                 {

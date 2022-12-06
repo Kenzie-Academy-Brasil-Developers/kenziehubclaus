@@ -42,7 +42,10 @@ export const SelectStyle = styled.label`
 
     select:disabled {
         cursor: unset;
+        /* color: transparent; */
+        content: 'S';
     }
+    
 `;
 
 export const ErrorStyle = styled.small`

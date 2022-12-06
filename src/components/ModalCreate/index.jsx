@@ -73,7 +73,7 @@ export function ModalCreate() {
                                 {
                                     value: 'Avançado',
                                     text: 'Avançado'
-                                },
+                                }
                             ]
                         }
                     />

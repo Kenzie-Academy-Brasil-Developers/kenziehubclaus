@@ -6,10 +6,11 @@ export const TechContext = createContext({});
 
 export function TechProvider({children}) {
     const [load, setLoad] = useState(false);
+    const [currTech, setCurrTech] = useState(undefined);
     const [changesOnList, setChangesOnList] = useState(null);
     const [openModalCreateTech, setOpenModalCreateTech] = useState(false);
     const [openModalDeleteTech, setOpenModalDeleteTech] = useState(false);
-    const [currTech, setCurrTech] = useState(undefined);
+    const [openModalEditTech, setOpenModalEditTech] = useState(false);
 
     async function createTech(data) {
         setLoad(true);
@@ -60,6 +61,30 @@ export function TechProvider({children}) {
         }
     }
 
+    async function updateTech(data) {
+        setLoad(true);
+        const token = localStorage.getItem('@Token');
+        try {
+            toast.loading('Carregando...', { toastId: 'load' });
+            const response = await api.put(`/users/techs/${currTech.id}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response)
+            toast.dismiss('load');
+            toast.info('Tecnologia atualizada com sucesso');
+            setChangesOnList(Math.random());
+            setTimeout(() => setOpenModalEditTech(false), 3500);
+        } catch (error) {
+            console.log(error)
+            toast.error('Ops! ocorreu um erro, tente novamente');
+        } finally {
+            toast.dismiss('load');
+            setTimeout(() => setLoad(false), 3500);
+        }
+    }
+
     return (
         <TechContext.Provider value={{
             load,
@@ -71,9 +96,12 @@ export function TechProvider({children}) {
             setOpenModalCreateTech,
             openModalDeleteTech, 
             setOpenModalDeleteTech,
+            openModalEditTech, 
+            setOpenModalEditTech,
             currTech, 
             setCurrTech,
-            deleteTech
+            deleteTech,
+            updateTech
         }}>
             {children}
         </TechContext.Provider>

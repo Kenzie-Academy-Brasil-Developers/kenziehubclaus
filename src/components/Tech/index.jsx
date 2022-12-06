@@ -8,11 +8,18 @@ export function Tech({ title , status , id , allTechInfo }) {
 
     const { 
         setCurrTech,
-        setOpenModalDeleteTech 
+        setOpenModalDeleteTech,
+        setOpenModalEditTech 
     } = useContext(TechContext);
+
     function deleteThisTech(thisTech) {
         setCurrTech(thisTech);
         setOpenModalDeleteTech(true);
+    }
+
+    function updateThisTech(thisTech) {
+        setCurrTech(thisTech);
+        setOpenModalEditTech(true);
     }
 
     return (
@@ -20,7 +27,7 @@ export function Tech({ title , status , id , allTechInfo }) {
             <h4>{title}</h4>
             <div>
                 <legend>{status}</legend>
-                <button><RiPencilFill/></button>
+                <button onClick={() => updateThisTech(allTechInfo)}><RiPencilFill/></button>
                 <button onClick={() => deleteThisTech(allTechInfo)}><FaTrash/></button>
             </div>
         </CardStyle>
