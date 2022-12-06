@@ -24,9 +24,10 @@ export const ModalStyle = styled.div`
 
         h2 {
             font-size: 14px;
+            font-weight: var(--font-weight-4);
         }
 
-        button {
+        > button {
             cursor: pointer;
             background-color: transparent;
             border: none;

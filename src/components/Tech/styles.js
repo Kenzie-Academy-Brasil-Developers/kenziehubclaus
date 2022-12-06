@@ -30,6 +30,8 @@ export const CardStyle = styled.li`
         font-weight: var(--font-weight-1);
         line-height: 22px;
         line-height: 12px;
+        transition: 0.5s;
+        font-size: 12px;
     }
 
     div {

@@ -9,7 +9,7 @@ export const ContainerStyle = styled.div`
 `;
 
 export const DashboardStyle = styled.div`
-    overflow-y: ${({scrollStop}) => scrollStop ? `hidden` : `unset`};
+    margin-bottom: 50px;
     h1 {
         font-weight: var(--font-weight-4);
         color: var(--grey-0);

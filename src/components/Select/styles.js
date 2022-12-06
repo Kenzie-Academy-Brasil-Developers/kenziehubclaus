@@ -8,6 +8,7 @@ export const SelectStyle = styled.label`
     font-weight: var(--font-weight-1);
     color: var(--grey-0);
     align-items: flex-start;
+    
 
     small {
         user-select: none;
@@ -37,6 +38,10 @@ export const SelectStyle = styled.label`
 
     select:not(:focus) {
         color: var(--grey-1);
+    }
+
+    select:disabled {
+        cursor: unset;
     }
 `;
 

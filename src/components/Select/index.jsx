@@ -6,7 +6,7 @@ export function Select({ error, id, labelText , register , onChange , disabled ,
             <SelectStyle>
                 {labelText}
                 <select disabled={disabled} {...register} id={id}>
-                    <option key={Math.random()} value='' style={{display:'none'}}>{explanation}</option>
+                    { explanation && <option key={Math.random()} value='' style={{display:'none'}}>{explanation}</option> }
                     {arrayOptions.map(({value,text}) => 
                         <option key={Math.random()} value={value}>{text}</option>
                     )}
