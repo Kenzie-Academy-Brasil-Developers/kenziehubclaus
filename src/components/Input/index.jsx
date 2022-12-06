@@ -1,4 +1,4 @@
-import { ContInputStyle } from './styles';
+import { ContInputStyle, ErrorStyle } from './styles';
 import { useState } from 'react';
 import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
 
@@ -29,7 +29,7 @@ export function Input({ error, id, labelText , placeholder , type , register , d
                     type === 'password' ?
                     currType :
                     type
-                } {...register} onChange={onChange}/>
+                } {...register} onChange={onChange || (() => true)}/>
                 {
                 type === 'password' ? 
                 <span onClick={changeVisibilityPasswd}>{currentBtn}</span> :
@@ -37,7 +37,7 @@ export function Input({ error, id, labelText , placeholder , type , register , d
                 }
                 </div>
             </ContInputStyle>
-            <small>&nbsp;{error}&nbsp;</small>
+            <ErrorStyle>&nbsp;{error}&nbsp;</ErrorStyle>
         </div>
     );
 };

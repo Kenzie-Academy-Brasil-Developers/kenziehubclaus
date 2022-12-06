@@ -4,7 +4,6 @@ export const UserContext = createContext({});
 
 export function UserProvider({children}) {
     const [currUser, setCurrUser] = useState(null);
-    const [load, setLoad] = useState(false);
     
     function saveToken(currToken) {
         localStorage.setItem('@Token', currToken);
@@ -15,7 +14,7 @@ export function UserProvider({children}) {
     }
 
     return (
-        <UserContext.Provider value={{ currUser , setCurrUser , load , setLoad , saveToken , saveUserId }}>
+        <UserContext.Provider value={{ currUser , setCurrUser , saveToken , saveUserId }}>
             {children}
         </UserContext.Provider>
     );

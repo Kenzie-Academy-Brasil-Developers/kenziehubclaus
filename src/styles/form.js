@@ -23,14 +23,6 @@ export const FormStyle = styled.form`
         font-weight: var(--font-weight-1);
     }
 
-    small {
-        user-select: none;
-        display: block;
-        font-size: 12px;
-        color: var(--color-negative);
-        margin-top: 8px;
-    }
-
     @media(max-width: 900px) {
         width: 85%;
     }

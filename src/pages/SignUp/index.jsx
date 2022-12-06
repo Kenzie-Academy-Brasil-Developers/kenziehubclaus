@@ -17,7 +17,7 @@ import { UserContext } from '../../providers/UserContext';
 export function SignUp() {
     const [inputsValues, setInputValues] = useState({});
     const [disableForm, setDisableForm] = useState(true);
-    const { load , setLoad } = useContext(UserContext);
+    const [load, setLoad] = useState(false);
     const navigate = useNavigate();
     const formSchema = yup.object().shape({
         name: yup

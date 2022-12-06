@@ -15,7 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { UserContext } from '../../providers/UserContext';
 
 export function Login() {
-    const { setCurrUser , load , setLoad , saveToken , saveUserId } = useContext(UserContext);
+    const { setCurrUser , saveToken , saveUserId } = useContext(UserContext);
     const formSchema = yup.object().shape({
         email: yup
             .string()
@@ -26,7 +26,7 @@ export function Login() {
             .required('A senha é obrigatória')
     });
     const navigate = useNavigate();
-
+    const [load, setLoad] = useState(false);
     async function sendApiData(data) {
         try {
             setLoad(true);

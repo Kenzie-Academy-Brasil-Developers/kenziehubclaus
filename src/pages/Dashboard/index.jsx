@@ -7,10 +7,15 @@ import { api } from '../../services/api';
 import { LinkBtnStyle } from '../../styles/buttons';
 import { ContainerStyle, DashboardStyle, TechsStyle } from './styles';
 import { FaPlus } from 'react-icons/fa';
+import { ModalCreate } from '../../components/ModalCreate';
 
 export function Dashboard() {
     const { currUser } = useContext(UserContext);
-    console.log(currUser.techs)
+    const [openModalCreateTech, setOpenModalCreateTech] = useState(false);
+
+    let optionScroll = openModalCreateTech ? 'hidden' : 'unset';  
+    document.body.style.overflowY = optionScroll;
+
     return (
             <DashboardStyle>
                 <ContainerStyle>
@@ -31,7 +36,7 @@ export function Dashboard() {
                     <TechsStyle>
                         <div>
                             <h2>Tecnologias</h2>
-                            <button><FaPlus/></button>
+                            <button onClick={() => setOpenModalCreateTech(true)}><FaPlus/></button>
                         </div>
                         <ul>
                             {
@@ -42,6 +47,7 @@ export function Dashboard() {
                         </ul>
                     </TechsStyle>
                 </ContainerStyle>
+             {openModalCreateTech && <ModalCreate isModalOpen={setOpenModalCreateTech}/>}
             </DashboardStyle>
     );
 };
