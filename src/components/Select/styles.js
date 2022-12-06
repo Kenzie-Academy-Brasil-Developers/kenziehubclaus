@@ -9,7 +9,14 @@ export const SelectStyle = styled.label`
     color: var(--grey-0);
     align-items: flex-start;
 
-    
+    small {
+        user-select: none;
+        display: block;
+        font-size: 12px;
+        color: var(--color-negative);
+        margin-top: 8px;
+    }
+
     select {
         cursor: pointer;
         width: 100%;
@@ -31,4 +38,13 @@ export const SelectStyle = styled.label`
     select:not(:focus) {
         color: var(--grey-1);
     }
+`;
+
+export const ErrorStyle = styled.small`
+    user-select: none;
+    display: block;
+    font-size: 12px;
+    color: var(--color-negative);
+    margin-top: 8px;
+    text-align: center;
 `;
