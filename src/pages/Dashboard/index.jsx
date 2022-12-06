@@ -10,6 +10,7 @@ import { FaPlus } from 'react-icons/fa';
 import { ModalCreate } from '../../components/ModalCreate';
 import { TechContext } from '../../providers/TechContext';
 import { ModalDelete } from '../../components/ModalDelete';
+import { ModalEdit } from '../../components/ModalEdit';
 
 export function Dashboard() {
     const { currUser , setCurrUser } = useContext(UserContext);
@@ -18,7 +19,8 @@ export function Dashboard() {
         changesOnList,
         openModalCreateTech,
         setOpenModalCreateTech,
-        openModalDeleteTech
+        openModalDeleteTech,
+        openModalEditTech
     } = useContext(TechContext);
 
     let optionScroll = openModalCreateTech ? 'hidden' : 'unset';  
@@ -80,6 +82,7 @@ export function Dashboard() {
                     </ContainerStyle>
                     {openModalCreateTech && <ModalCreate/>}
                     {openModalDeleteTech && <ModalDelete/>}
+                    {openModalEditTech && <ModalEdit/>}
                 </DashboardStyle>
     );
 };

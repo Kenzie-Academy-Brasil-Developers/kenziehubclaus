@@ -53,5 +53,8 @@ export const ModalStyle = styled.div`
         flex-direction: column;
         gap: 10px;
     }
+    @media (max-width: 900px) {
+        width: 92%;
+    }
 `;
 
