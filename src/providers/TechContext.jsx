@@ -14,7 +14,7 @@ export function TechProvider({children}) {
     const [openModalCreateTech, setOpenModalCreateTech] = useState(false);
     const [openModalDeleteTech, setOpenModalDeleteTech] = useState(false);
     const [openModalEditTech, setOpenModalEditTech] = useState(false);
-    const [isSomeModalOpen, setSomeModalOpen] = useState(false);
+    const [isSomeModalOpen, setIsSomeModalOpen] = useState(false);
     const { setCurrUser } = useContext(UserContext);
 
     async function createTech(data) {
@@ -30,7 +30,10 @@ export function TechProvider({children}) {
             toast.dismiss('load');
             toast.success('Tecnologia adicionada com sucesso');
             setChangesOnList(Math.random());
-            setTimeout(() => setOpenModalCreateTech(false), 3500);
+            setTimeout(() => {
+                setOpenModalCreateTech(false);
+                setIsSomeModalOpen(false);
+            }, 3500);
         } catch(error) {
             if (error.response.data.message === 'User Already have this technology created you can only update it') {
                 toast.error('Erro! você já tem essa tecnologia tente atualizá-la');
@@ -56,7 +59,10 @@ export function TechProvider({children}) {
             toast.dismiss('load');
             toast.warning('Tecnologia deletada com sucesso');
             setChangesOnList(Math.random());
-            setTimeout(() => setOpenModalDeleteTech(false), 2500);
+            setTimeout(() => {
+                setOpenModalDeleteTech(false);
+                setIsSomeModalOpen(false);
+            }, 2500);
         } catch (error) {
             toast.error('Ops! ocorreu um erro, tente novamente');
         } finally {
@@ -78,7 +84,10 @@ export function TechProvider({children}) {
             toast.dismiss('load');
             toast.info('Tecnologia atualizada com sucesso');
             setChangesOnList(Math.random());
-            setTimeout(() => setOpenModalEditTech(false), 3500);
+            setTimeout(() => {
+                setOpenModalEditTech(false);
+                setIsSomeModalOpen(false);
+            }, 3500);
         } catch (error) {
             console.error(error);
             toast.error('Ops! ocorreu um erro, tente novamente');
@@ -127,7 +136,7 @@ export function TechProvider({children}) {
             deleteTech,
             updateTech,
             isSomeModalOpen,
-            setSomeModalOpen
+            setIsSomeModalOpen
         }}>
             {children}
         </TechContext.Provider>

@@ -18,12 +18,22 @@ export function Dashboard() {
         setOpenModalCreateTech,
         openModalDeleteTech,
         openModalEditTech,
+        isSomeModalOpen,
+        setIsSomeModalOpen
     } = useContext(TechContext);
 
     if (loadingPage) {
         document.body.style.overflowX = 'hidden';
         return <><LoadingStyle><AiOutlineLoading/></LoadingStyle></>
     }
+
+    function showModalAddTech() {
+        setOpenModalCreateTech(true);
+        setIsSomeModalOpen(true);
+    }
+
+     
+    document.body.style.overflowY = isSomeModalOpen ? 'hidden' : 'unset';  
 
     return (
                 <DashboardStyle>
@@ -46,7 +56,7 @@ export function Dashboard() {
                         
                             <div>
                                 <h2>Tecnologias</h2>
-                                <button onClick={() => setOpenModalCreateTech(true)}><FaPlus/></button>
+                                <button onClick={() => showModalAddTech()}><FaPlus/></button>
                             </div>
                             <ul>
                                 {

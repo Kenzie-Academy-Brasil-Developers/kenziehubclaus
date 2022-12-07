@@ -13,12 +13,18 @@ export function ModalCreate() {
     const {
         createTech,
         load,
-        setOpenModalCreateTech
+        setOpenModalCreateTech,
+        setIsSomeModalOpen
     } = useContext(TechContext);
 
     const { register , handleSubmit , formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });
+
+    function closeModal() {
+        setOpenModalCreateTech(false);
+        setIsSomeModalOpen(false);
+    }
 
     return (
         <ModalWrapperStyle>
@@ -35,7 +41,7 @@ export function ModalCreate() {
             <ModalStyle>
                 <div>
                     <h2>Cadastrar Tecnologia</h2>
-                    <button onClick={() => setOpenModalCreateTech(false)}>X</button>
+                    <button onClick={() => closeModal()}>X</button>
                 </div>
                 <form onSubmit={handleSubmit(createTech)} noValidate>
                     <Input 
