@@ -8,17 +8,20 @@ export function Tech({ title , status , id , allTechInfo }) {
     const { 
         setCurrTech,
         setOpenModalDeleteTech,
-        setOpenModalEditTech 
+        setOpenModalEditTech,
+        setIsSomeModalOpen 
     } = useContext(TechContext);
 
     function deleteThisTech(thisTech) {
         setCurrTech(thisTech);
         setOpenModalDeleteTech(true);
+        setIsSomeModalOpen(true);
     }
 
     function updateThisTech(thisTech) {
         setCurrTech(thisTech);
         setOpenModalEditTech(true);
+        setIsSomeModalOpen(true);
     }
 
     return (

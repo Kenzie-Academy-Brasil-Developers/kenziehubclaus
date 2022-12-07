@@ -14,12 +14,18 @@ export function ModalEdit() {
         load,
         setOpenModalEditTech,
         updateTech,
-        currTech
+        currTech,
+        setIsSomeModalOpen
     } = useContext(TechContext);
 
     const { register, handleSubmit , formState: {errors} } = useForm({
         resolver: yupResolver(formSchema)
     });
+
+    function closeModal() {
+        setOpenModalEditTech(false);
+        setIsSomeModalOpen(false);
+    }
 
     return (
         <ModalWrapperStyle>
@@ -36,7 +42,7 @@ export function ModalEdit() {
             <ModalStyle>
                 <div>
                     <h2>Atualizar Tecnologia</h2>
-                    <button onClick={() => setOpenModalEditTech(false)}>X</button>
+                    <button onClick={() => closeModal()}>X</button>
                 </div>
                 <form onSubmit={handleSubmit(updateTech)} noValidate>
                     <Input 

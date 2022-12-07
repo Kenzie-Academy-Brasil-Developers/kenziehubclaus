@@ -12,10 +12,16 @@ export function ModalDelete() {
         setOpenModalDeleteTech,
         currTech,
         load,
-        deleteTech
+        deleteTech,
+        setIsSomeModalOpen
     } = useContext(TechContext);
         
     const { handleSubmit } = useForm();
+
+    function closeModal() {
+        setOpenModalDeleteTech(false);
+        setIsSomeModalOpen(false);
+    }
 
     return (
         <ModalWrapperStyle>
@@ -32,7 +38,7 @@ export function ModalDelete() {
             <ModalStyle>
                 <div>
                     <h2>Deletar Tecnologia</h2>
-                    <button onClick={() => setOpenModalDeleteTech(false)}>X</button>
+                    <button onClick={() => closeModal()}>X</button>
                 </div>
                 <form onSubmit={handleSubmit(deleteTech)}>
                     <Input 
