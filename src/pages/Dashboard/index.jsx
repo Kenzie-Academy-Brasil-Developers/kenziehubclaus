@@ -9,7 +9,6 @@ import { ModalDelete } from '../../components/ModalDelete';
 import { ModalEdit } from '../../components/ModalEdit';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth, verifyUser, updateUser } from '../../store/modules/user/actions';
-import { createUserThunk, updateUserThunk } from '../../store/modules/user/thunk';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 
@@ -108,7 +107,7 @@ export function Dashboard() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            dispatch(updateUserThunk(response.data))
+            dispatch(updateUser(response.data))
         } catch(error) {
             console.error(error);
         } finally {

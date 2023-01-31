@@ -11,16 +11,19 @@ import { useState } from 'react';
 import { api } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { UserContext } from '../../providers/UserContext';
-import { useDispatch } from 'react-redux';
-import { setAuth, verifyUser } from '../../store/modules/user/actions';
-import { createUserThunk } from '../../store/modules/user/thunk';
+import { useDispatch, useSelector } from 'react-redux';
+import { createUser, setAuth, verifyUser } from '../../store/modules/user/actions';
 import { saveToken, saveUserId } from '../../functions';
 
 export function Login() {
-    const navigate = useNavigate();
     const [load, setLoad] = useState(false);
     const dispatch = useDispatch();
+    const canLogin = useSelector(({user}) => user.isAuth);
+    const navigate = useNavigate();
+    console.log(`🔴Poder ${canLogin}`)
+    if (canLogin) {
+        navigate('/home');
+    }
 
     
     async function sendApiData(data) {
@@ -30,7 +33,7 @@ export function Login() {
             const response = await api.post('/sessions', data);
             saveToken(response.data.token);
             saveUserId(response.data.user.id);
-            dispatch(createUserThunk(response.data.user));
+            dispatch(createUser(response.data));
             toast.dismiss('load');
             if (response.status === 200) {
                 toast.success('Login feito com sucesso', {toastId: 'success'});

@@ -19,7 +19,6 @@ export function SignUp() {
     const [load, setLoad] = useState(false);
     const navigate = useNavigate();
     
-
     async function createUser(data) {
         try { 
             setLoad(true);
@@ -45,7 +44,6 @@ export function SignUp() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });
-
 
     function setInputEmpty(value, type) {
         const currInput = {...inputsValues};

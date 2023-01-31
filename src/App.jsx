@@ -1,16 +1,47 @@
 import { RoutesMain } from './routes';
 import { GlobalStyles } from './styles/global';
 import 'react-toastify/dist/ReactToastify.css';
-import { Providers } from './providers/Providers';
-import { Provider, useDispatch } from 'react-redux';
-import { store } from './store';
 import { ToastContainer } from 'react-toastify';
-import { verifyUser } from './store/modules/user/actions';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { api } from './services/api';
+import { createUser, loadingUser, setAuth } from './store/modules/user/actions';
 
 export function App() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    async function loadUser() {
+      const token = localStorage.getItem('@Token');
+
+      if (!token) {
+          dispatch(loadingUser(false));
+          navigate('/');
+          return
+      }
+
+      try {
+          const response = await api.get('/profile', {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+          console.log(response.data);
+          dispatch(createUser(response.data));
+          dispatch(setAuth(true));
+      } catch (error) {
+          console.error(error);
+          localStorage.clear();
+          navigate('/');
+      } finally {
+        dispatch(loadingUser(false));
+      }
+    }
+    useEffect(() => {loadUser()}, [])
+
   return (
     <>
-        <Provider store={store}>
             <GlobalStyles/>
             <ToastContainer
                     toastStyle={{ backgroundColor: 'var(--grey-2)' }}
@@ -22,9 +53,7 @@ export function App() {
                     theme='dark'
                     limit={2}
                 />
-           
             <RoutesMain/>
-        </Provider>
     </>
   )
 }
