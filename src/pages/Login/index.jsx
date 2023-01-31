@@ -10,13 +10,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { api } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { UserContext } from '../../providers/UserContext';
+import { useDispatch } from 'react-redux';
+import { setAuth, verifyUser } from '../../store/modules/user/actions';
+import { createUserThunk } from '../../store/modules/user/thunk';
+import { saveToken, saveUserId } from '../../functions';
 
 export function Login() {
-    const { setCurrUser , saveToken , saveUserId } = useContext(UserContext);
     const navigate = useNavigate();
     const [load, setLoad] = useState(false);
+    const dispatch = useDispatch();
+
+    
     async function sendApiData(data) {
         try {
             setLoad(true);
@@ -24,12 +30,13 @@ export function Login() {
             const response = await api.post('/sessions', data);
             saveToken(response.data.token);
             saveUserId(response.data.user.id);
-            setCurrUser(response.data.user);
+            dispatch(createUserThunk(response.data.user));
             toast.dismiss('load');
             if (response.status === 200) {
                 toast.success('Login feito com sucesso', {toastId: 'success'});
-                setTimeout(() => navigate('/home'), 4000);
+                setTimeout(() => navigate('/home'), 2000);
             }
+            dispatch(setAuth(true));
         } catch(error) {
             toast.dismiss('load');
             if (error.response.status === 401) {
@@ -46,16 +53,9 @@ export function Login() {
 
     return (
             <MainStyle>
-                 <ToastContainer
-                    toastStyle={{ backgroundColor: 'var(--grey-2)' }}
-                    position='top-right'
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    closeOnClick
-                    pauseOnHover
-                    theme='dark'
-                    limit={2}
-                />
+                <button onClick={() => dispatch(verifyUser())}>
+                    Verificar
+                </button>
                 <img src={logo} alt='Logo'/>
                 <FormStyle onSubmit={handleSubmit(sendApiData)} noValidate>
                     <h1>Login</h1>

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from '../../services/api';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Select } from '../../components/Select';
 import { formSchema } from './validation';
@@ -62,16 +62,6 @@ export function SignUp() {
 
     return (
         <MainStyle>
-            <ToastContainer
-            toastStyle={{ backgroundColor: 'var(--grey-2)' }}
-            position='top-right'
-            autoClose={3000}
-            hideProgressBar={false}
-            closeOnClick
-            pauseOnHover
-            theme='dark'
-            limit={2}
-            />
             <HeaderStyle>
                 <img src={logo} alt='Kenzie Hub'/>
                 <LinkBtnStyle to='/login' variant='tertiary'>Voltar</LinkBtnStyle>

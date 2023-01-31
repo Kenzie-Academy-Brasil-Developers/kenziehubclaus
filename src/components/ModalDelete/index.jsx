@@ -1,20 +1,18 @@
-import { useContext } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { ToastContainer } from 'react-toastify';
-import { TechContext } from '../../providers/TechContext';
 import { Button } from '../../styles/buttons';
 import { ModalStyle, ModalWrapperStyle } from '../../styles/modal';
 import { Input } from '../Input';
 import { Select } from '../Select';
 
-export function ModalDelete() {
-    const { 
+export function ModalDelete({
         setOpenModalDeleteTech,
         currTech,
         load,
         deleteTech,
         setIsSomeModalOpen
-    } = useContext(TechContext);
+    }) {
         
     const { handleSubmit } = useForm();
 

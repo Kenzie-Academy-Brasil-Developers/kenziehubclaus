@@ -4,13 +4,16 @@ import { RiPencilFill } from 'react-icons/ri';
 import { TechContext } from '../../providers/TechContext';
 import { useContext } from 'react';
 
-export function Tech({ title , status , id , allTechInfo }) {
-    const { 
+export function Tech({ 
+        title, 
+        status, 
+        id,
+        allTechInfo, 
         setCurrTech,
         setOpenModalDeleteTech,
         setOpenModalEditTech,
-        setIsSomeModalOpen 
-    } = useContext(TechContext);
+        setIsSomeModalOpen  
+    }) {
 
     function deleteThisTech(thisTech) {
         setCurrTech(thisTech);

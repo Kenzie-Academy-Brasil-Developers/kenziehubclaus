@@ -9,24 +9,16 @@ export function UserProvider({children}) {
     const [loadingPage, setLoadingPage] = useState(true);
     const navigate = useNavigate();
 
-    function saveToken(currToken) {
-        localStorage.setItem('@Token', currToken);
-    }
-
-    function saveUserId(currId) {
-        localStorage.setItem('@UserId', currId);
-    }
 
     useEffect(() => {
-        const token = localStorage.getItem('@Token');
         async function loadUser() {
+            const token = localStorage.getItem('@Token');
 
             if (!token) {
                 setLoadingPage(false);
                 navigate('/');
                 return
             }
-
         
             try {
                 const { data } = await api.get('/profile', {
@@ -48,11 +40,9 @@ export function UserProvider({children}) {
 
     return (
         <UserContext.Provider value={{
-            currUser, 
-            setCurrUser, 
-            saveToken, 
-            saveUserId,
-            loadingPage 
+            // currUser, 
+            // setCurrUser, 
+            // loadingPage 
         }}>
             {children}
         </UserContext.Provider>

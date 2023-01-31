@@ -5,17 +5,15 @@ import { ModalStyle, ModalWrapperStyle } from '../../styles/modal';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ToastContainer } from 'react-toastify';
-import { useContext } from 'react';
-import { TechContext } from '../../providers/TechContext';
 import { formSchema } from './validation';
 
-export function ModalCreate() {
-    const {
+export function ModalCreate({
         createTech,
         load,
         setOpenModalCreateTech,
         setIsSomeModalOpen
-    } = useContext(TechContext);
+    }) {
+
 
     const { register , handleSubmit , formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)

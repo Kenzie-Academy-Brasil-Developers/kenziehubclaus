@@ -16,13 +16,13 @@ export function TechProvider({children}) {
     const [openModalEditTech, setOpenModalEditTech] = useState(false);
     const [isSomeModalOpen, setIsSomeModalOpen] = useState(false);
     const { setCurrUser } = useContext(UserContext);
-
+    //Preciso ajustar set user para ser a minha função
     async function createTech(data) {
         setLoad(true);
         const token = localStorage.getItem('@Token');
         try {
             toast.loading('Carregando...', { toastId: 'load' });
-            const response = await api.post('/users/techs', data, {
+            await api.post('/users/techs', data, {
                 headers: {
                 'Authorization': `Bearer ${token}`
                 }
@@ -30,10 +30,8 @@ export function TechProvider({children}) {
             toast.dismiss('load');
             toast.success('Tecnologia adicionada com sucesso');
             setChangesOnList(Math.random());
-            setTimeout(() => {
-                setOpenModalCreateTech(false);
-                setIsSomeModalOpen(false);
-            }, 3500);
+            setOpenModalCreateTech(false);
+            setIsSomeModalOpen(false);
         } catch(error) {
             if (error.response.data.message === 'User Already have this technology created you can only update it') {
                 toast.error('Erro! você já tem essa tecnologia tente atualizá-la');
@@ -42,7 +40,7 @@ export function TechProvider({children}) {
             }
         } finally {
             toast.dismiss('load');
-            setTimeout(() => setLoad(false), 3500);
+            setLoad(false);
         }
     }
 
@@ -51,7 +49,7 @@ export function TechProvider({children}) {
         const token = localStorage.getItem('@Token');
         try {
             toast.loading('Carregando...', { toastId: 'load' });
-            const response = await api.delete(`/users/techs/${currTech.id}`, {
+            await api.delete(`/users/techs/${currTech.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -59,15 +57,13 @@ export function TechProvider({children}) {
             toast.dismiss('load');
             toast.warning('Tecnologia deletada com sucesso');
             setChangesOnList(Math.random());
-            setTimeout(() => {
-                setOpenModalDeleteTech(false);
-                setIsSomeModalOpen(false);
-            }, 2500);
+            setOpenModalDeleteTech(false);
+            setIsSomeModalOpen(false);
         } catch (error) {
             toast.error('Ops! ocorreu um erro, tente novamente');
         } finally {
             toast.dismiss('load');
-            setTimeout(() => setLoad(false), 2500);
+            setLoad(false);
         }
     }
 
@@ -76,7 +72,7 @@ export function TechProvider({children}) {
         const token = localStorage.getItem('@Token');
         try {
             toast.loading('Carregando...', { toastId: 'load' });
-            const response = await api.put(`/users/techs/${currTech.id}`, data, {
+            await api.put(`/users/techs/${currTech.id}`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -84,59 +80,54 @@ export function TechProvider({children}) {
             toast.dismiss('load');
             toast.info('Tecnologia atualizada com sucesso');
             setChangesOnList(Math.random());
-            setTimeout(() => {
-                setOpenModalEditTech(false);
-                setIsSomeModalOpen(false);
-            }, 3500);
+            setTimeout(() => setOpenModalEditTech(false), 2000);
+            setIsSomeModalOpen(false);
         } catch (error) {
             console.error(error);
             toast.error('Ops! ocorreu um erro, tente novamente');
         } finally {
             toast.dismiss('load');
-            setTimeout(() => setLoad(false), 3500);
+            setLoad(false);
         }
     }
 
-    useEffect(() => {
-        async function getUserInfoApi() {
-            const token = localStorage.getItem('@Token');
-            try {
-                const response = await api.get('/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setCurrUser(response.data);
-            } catch(error) {
-                console.error(error);
-            } finally {
-            }
+    async function getUserInfoApi() {
+        const token = localStorage.getItem('@Token');
+        try {
+            const response = await api.get('/profile', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setCurrUser(response.data);
+        } catch(error) {
+            console.error(error);
+        } finally {
         }
+    }
 
-        getUserInfoApi();
-
-    }, [changesOnList]);
+    useEffect(() => getUserInfoApi(), [changesOnList]);
 
 
     return (
         <TechContext.Provider value={{
-            load,
-            setLoad,
-            createTech,
-            changesOnList,
-            setChangesOnList,
-            openModalCreateTech,
-            setOpenModalCreateTech,
-            openModalDeleteTech, 
-            setOpenModalDeleteTech,
-            openModalEditTech, 
-            setOpenModalEditTech,
-            currTech, 
-            setCurrTech,
-            deleteTech,
-            updateTech,
-            isSomeModalOpen,
-            setIsSomeModalOpen
+            // load,
+            // setLoad,
+            // createTech,
+            // changesOnList,
+            // setChangesOnList,
+            // openModalCreateTech,
+            // setOpenModalCreateTech,
+            // openModalDeleteTech, 
+            // setOpenModalDeleteTech,
+            // openModalEditTech, 
+            // setOpenModalEditTech,
+            // currTech, 
+            // setCurrTech,
+            // deleteTech,
+            // updateTech,
+            // isSomeModalOpen,
+            // setIsSomeModalOpen
         }}>
             {children}
         </TechContext.Provider>
