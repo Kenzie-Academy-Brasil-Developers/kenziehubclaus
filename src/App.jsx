@@ -2,16 +2,18 @@ import { RoutesMain } from './routes';
 import { GlobalStyles } from './styles/global';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { api } from './services/api';
 import { createUser, loadingUser, setAuth } from './store/modules/user/actions';
 
+
 export function App() {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    
     async function loadUser() {
       const token = localStorage.getItem('@Token');
 
@@ -27,7 +29,6 @@ export function App() {
                   'Authorization': `Bearer ${token}`
               }
           });
-          console.log(response.data);
           dispatch(createUser(response.data));
           dispatch(setAuth(true));
       } catch (error) {
@@ -39,7 +40,7 @@ export function App() {
       }
     }
     useEffect(() => {loadUser()}, [])
-
+   
   return (
     <>
             <GlobalStyles/>

@@ -13,8 +13,7 @@ export function ModalCreate({
         setOpenModalCreateTech,
         setIsSomeModalOpen
     }) {
-
-
+        
     const { register , handleSubmit , formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     });

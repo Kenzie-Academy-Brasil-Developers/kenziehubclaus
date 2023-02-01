@@ -4,6 +4,7 @@ import { LinkBtnStyle } from '../../styles/buttons';
 import { MainStyle } from './styles';
 
 export function NotFound() {
+    
     const navigate = useNavigate();
     return (
         <MainStyle>

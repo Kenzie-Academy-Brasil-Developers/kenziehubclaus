@@ -1,7 +1,5 @@
 import { CREATE_USER, LOAD, SET_AUTHENTICATED, UPDATE_USER, VERIFY_USER } from "./types";
 
-
-
 export function setAuth(isAuth) {
     return {
         type: SET_AUTHENTICATED,
@@ -29,12 +27,3 @@ export function updateUser(data) {
         payload: data
     }
 }
-
-export function verifyUser() {
-    return {
-        type: VERIFY_USER
-    }
-}
-
-
-

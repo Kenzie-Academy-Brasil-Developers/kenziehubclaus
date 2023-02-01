@@ -8,12 +8,13 @@ import { Select } from '../Select';
 import { formSchema } from './validation';
 
 export function ModalEdit({
-    load,
-    setOpenModalEditTech,
-    updateTech,
-    currTech,
-    setIsSomeModalOpen}) {
-
+        load,
+        setOpenModalEditTech,
+        updateTech,
+        currTech,
+        setIsSomeModalOpen
+    }) {
+        
     const { register, handleSubmit , formState: {errors} } = useForm({
         resolver: yupResolver(formSchema)
     });

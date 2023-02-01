@@ -1,18 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '../../assets/logo.svg';
 import { Tech } from '../../components/Tech';
 import { LinkBtnStyle } from '../../styles/buttons';
-import { ContainerStyle, DashboardStyle, LoadingStyle, TechsStyle } from './styles';
+import { ContainerStyle, DashboardStyle, TechsStyle } from './styles';
 import { FaPlus } from 'react-icons/fa';
 import { ModalCreate } from '../../components/ModalCreate';
 import { ModalDelete } from '../../components/ModalDelete';
 import { ModalEdit } from '../../components/ModalEdit';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuth, verifyUser, updateUser } from '../../store/modules/user/actions';
+import { setAuth, updateUser } from '../../store/modules/user/actions';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 
 export function Dashboard() {
+    
     const dispatch = useDispatch();
     const currUser = useSelector(({user}) => user.currUser);
     const [load, setLoad] = useState(false);
@@ -24,7 +25,7 @@ export function Dashboard() {
     const [isSomeModalOpen, setIsSomeModalOpen] = useState(false);
     
     useEffect(() => {getUserInfoApi()}, [changesOnList]);
-
+    
     async function createTech(data) {
         setLoad(true);
         const token = localStorage.getItem('@Token');
@@ -128,9 +129,6 @@ export function Dashboard() {
 
     return (
                 <DashboardStyle>
-                    <button onClick={() => dispatch(verifyUser())}>
-                        Verificar
-                    </button>
                     <ContainerStyle>
                         <header>
                             <img src={logo} alt='Kenzie Hub'/>

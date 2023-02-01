@@ -14,6 +14,7 @@ import { formSchema } from './validation';
 
 
 export function SignUp() {
+
     const [inputsValues, setInputValues] = useState({});
     const [disableForm, setDisableForm] = useState(true);
     const [load, setLoad] = useState(false);
@@ -23,12 +24,10 @@ export function SignUp() {
         try { 
             setLoad(true);
             toast.loading('Carregando', {toastId: 'load'});
-            const response =  await api.post('/users', data);
+            await api.post('/users', data);
             toast.dismiss('load');
-            if (response.status === 201) {
-                toast.success('Usuário criado com sucesso', {toastId: 'success'});
-                setTimeout(() => navigate('/login'), 4000);
-            }
+            toast.success('Usuário criado com sucesso', {toastId: 'success'});
+            navigate('/login');
         } catch(error) {
             toast.dismiss('load');
             if (error.response.data.message === 'Email already exists') {

@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import logo from '../../assets/logo.svg';
 import { Input } from '../../components/Input'
 import { Button, LinkBtnStyle } from '../../styles/buttons'
@@ -12,20 +11,20 @@ import { api } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUser, setAuth, verifyUser } from '../../store/modules/user/actions';
+import { createUser, setAuth } from '../../store/modules/user/actions';
 import { saveToken, saveUserId } from '../../functions';
 
 export function Login() {
+    
     const [load, setLoad] = useState(false);
     const dispatch = useDispatch();
     const canLogin = useSelector(({user}) => user.isAuth);
     const navigate = useNavigate();
-    console.log(`🔴Poder ${canLogin}`)
+    
     if (canLogin) {
         navigate('/home');
     }
-
-    
+        
     async function sendApiData(data) {
         try {
             setLoad(true);
@@ -56,9 +55,6 @@ export function Login() {
 
     return (
             <MainStyle>
-                <button onClick={() => dispatch(verifyUser())}>
-                    Verificar
-                </button>
                 <img src={logo} alt='Logo'/>
                 <FormStyle onSubmit={handleSubmit(sendApiData)} noValidate>
                     <h1>Login</h1>

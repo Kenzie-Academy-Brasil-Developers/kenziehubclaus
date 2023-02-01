@@ -1,8 +1,6 @@
 import { CardStyle } from './styles';
 import { FaTrash } from 'react-icons/fa';
 import { RiPencilFill } from 'react-icons/ri';
-import { TechContext } from '../../providers/TechContext';
-import { useContext } from 'react';
 
 export function Tech({ 
         title, 
@@ -28,7 +26,7 @@ export function Tech({
     }
 
     return (
-        <CardStyle>
+        <CardStyle id={id}>
             <h4>{title}</h4>
             <div>
                 <legend>{status}</legend>
