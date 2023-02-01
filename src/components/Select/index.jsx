@@ -2,7 +2,16 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import { ErrorStyle, SelectStyle } from './styles';
 
-export function Select({ error, id, labelText , register , onChange , disabled , arrayOptions , explanation }) {
+export function Select({ 
+        error, 
+        id, 
+        labelText, 
+        register, 
+        disabled, 
+        arrayOptions, 
+        explanation 
+    }) {
+        
     const [showExplanation] = useState(true);
     const sel = useRef(null);
 

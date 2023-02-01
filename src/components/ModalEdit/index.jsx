@@ -1,23 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { ToastContainer } from 'react-toastify';
-import { TechContext } from '../../providers/TechContext';
 import { Button } from '../../styles/buttons';
 import { ModalStyle, ModalWrapperStyle } from '../../styles/modal';
 import { Input } from '../Input';
 import { Select } from '../Select';
 import { formSchema } from './validation';
 
-export function ModalEdit() {
-    const { 
+export function ModalEdit({
         load,
         setOpenModalEditTech,
         updateTech,
         currTech,
         setIsSomeModalOpen
-    } = useContext(TechContext);
-
+    }) {
+        
     const { register, handleSubmit , formState: {errors} } = useForm({
         resolver: yupResolver(formSchema)
     });
