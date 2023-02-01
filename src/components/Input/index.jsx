@@ -2,7 +2,18 @@ import { ContInputStyle, ErrorStyle } from './styles';
 import { useState } from 'react';
 import { BsEyeFill , BsEyeSlashFill } from 'react-icons/bs';
 
-export function Input({ error, id, labelText , placeholder , type , register , disabled , onChange , value}) {
+export function Input({ 
+        error, 
+        id, 
+        labelText, 
+        placeholder, 
+        type, 
+        register, 
+        disabled, 
+        onChange, 
+        value
+    }) { 
+        
     const defaultColorBtn = { color: 'gray' };
     const [showPasswd, setShowPasswd] = useState(false);
     const [currType, setCurrType] = useState(type);

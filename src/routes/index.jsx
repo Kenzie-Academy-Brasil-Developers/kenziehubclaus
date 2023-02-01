@@ -1,13 +1,9 @@
-import { useContext } from 'react';
-import { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Dashboard } from '../pages/Dashboard';
 import { Login } from '../pages/Login';
 import { NotFound } from '../pages/NotFound';
 import { SignUp } from '../pages/SignUp';
-import { TechProvider } from '../providers/TechContext';
-import { UserContext } from '../providers/UserContext';
-
+import { RoutesAuth } from './routesAuth';
 
 export function RoutesMain() {
     return (
@@ -15,7 +11,9 @@ export function RoutesMain() {
             <Route path='/' element={ <Login/> }/>
             <Route path='/login' element={  <Login/> }/>
             <Route path='/signup' element={ <SignUp/> }/>
-            <Route path='/home' element={ <TechProvider> <Dashboard/> </TechProvider> }/>
+            <Route element={ <RoutesAuth/> }>
+                <Route path='/home' element={ <Dashboard/> }/>
+            </Route>
             <Route path='*' element={ <NotFound/> }/>
         </Routes>
     )

@@ -98,13 +98,3 @@ export const TechsStyle = styled.div`
         border-radius: var(--radius-1);
     }
 `;
-
-export const LoadingStyle = styled.picture`
-    height: 65vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--color-primary);
-    font-size: 100px;
-    animation: roll infinite 1s;
-`;

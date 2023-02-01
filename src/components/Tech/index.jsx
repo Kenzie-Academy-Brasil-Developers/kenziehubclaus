@@ -1,16 +1,17 @@
 import { CardStyle } from './styles';
 import { FaTrash } from 'react-icons/fa';
 import { RiPencilFill } from 'react-icons/ri';
-import { TechContext } from '../../providers/TechContext';
-import { useContext } from 'react';
 
-export function Tech({ title , status , id , allTechInfo }) {
-    const { 
+export function Tech({ 
+        title, 
+        status, 
+        id,
+        allTechInfo, 
         setCurrTech,
         setOpenModalDeleteTech,
         setOpenModalEditTech,
-        setIsSomeModalOpen 
-    } = useContext(TechContext);
+        setIsSomeModalOpen  
+    }) {
 
     function deleteThisTech(thisTech) {
         setCurrTech(thisTech);
@@ -25,7 +26,7 @@ export function Tech({ title , status , id , allTechInfo }) {
     }
 
     return (
-        <CardStyle>
+        <CardStyle id={id}>
             <h4>{title}</h4>
             <div>
                 <legend>{status}</legend>
