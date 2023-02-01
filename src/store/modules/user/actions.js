@@ -1,4 +1,4 @@
-import { CREATE_USER, LOAD, SET_AUTHENTICATED, UPDATE_USER, VERIFY_USER } from "./types";
+import { CREATE_USER, LOAD, SET_AUTHENTICATED, UPDATE_USER } from "./types";
 
 export function setAuth(isAuth) {
     return {
